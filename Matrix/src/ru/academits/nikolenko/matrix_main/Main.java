@@ -91,5 +91,6 @@ public class Main {
         matrix13.transposition();
         System.out.println("Транспонированная матрица 13 = \n" + matrix13);
 
+        
     }
 }
