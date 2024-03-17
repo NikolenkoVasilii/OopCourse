@@ -5,11 +5,10 @@ import ru.academits.nikolenko.vector.Vector;
 
 import java.util.Arrays;
 
-import static ru.academits.nikolenko.vector.Vector.addVectors;
-import static ru.academits.nikolenko.vector.Vector.subtractVectors;
+import static ru.academits.nikolenko.vector.Vector.*;
 
 public class Matrix {
-    private Vector[] row;
+    private final Vector[] row;
 
     public Matrix(int n, int m) {
         if (n <= 0) {
@@ -71,17 +70,6 @@ public class Matrix {
         }
     }
 
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("{");
-        int size = getRowCount();
-        for (int i = 0; i < size - 1; i++) {
-            stringBuilder.append(row[i].toString()).append(",\n");
-        }
-        stringBuilder.append(row[size - 1]).append("}");
-        return stringBuilder.toString();
-    }
 
     public int getRowCount() {
         return row.length;
@@ -133,8 +121,8 @@ public class Matrix {
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
                 int temp = row[i].getCoordinate(j);
-                row[i].setCoordinate(j, getRow(j).getCoordinate(i));
-                row[j].setCoordinate(i, temp);
+                row[i].setCoordinate(getRow(j).getCoordinate(i) , j);
+                row[j].setCoordinate(temp, i);
             }
         }
     }
@@ -184,7 +172,7 @@ public class Matrix {
         for (int i = 0, i2 = 0; i < length + 1; i++) {
             for (int j = 0, j2 = 0; j < length + 1; j++) {
                 if (i != firstIndex && j != secondIndex) {
-                    result.row[i2].setCoordinate(j2, matrix.getRow(i).getCoordinate(j));
+                    result.row[i2].setCoordinate(matrix.getRow(i).getCoordinate(j),j2);
                     j2++;
                     if (j2 == length) {
                         j2 = 0;
@@ -195,6 +183,19 @@ public class Matrix {
         }
         return result.getDeterminant();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{");
+        int size = getRowCount();
+        for (int i = 0; i < size - 1; i++) {
+            stringBuilder.append(row[i].toString()).append(",\n");
+        }
+        stringBuilder.append(row[size - 1]).append("}");
+        return stringBuilder.toString();
+    }
+
     public Vector mul(Vector vector) {
         int height = this.getRowCount();
         int width = this.getColumnCount();
@@ -204,7 +205,7 @@ public class Matrix {
             for (int j = 0; j < width; ++j) {
                 support += this.getRow(i).getCoordinate(j) * vector.getCoordinate(j);
             }
-            mulResult.setCoordinate(i, support);
+            mulResult.setCoordinate( support,i);
         }
         return mulResult;
     }
@@ -220,7 +221,7 @@ public class Matrix {
         }
     }
 
-    public void sub(Matrix matrix) {
+    public void subtract(Matrix matrix) {
         int height = this.getRowCount();
         if (height != matrix.getRowCount() || this.getColumnCount() != matrix.getColumnCount()) {
             throw new IllegalArgumentException("Illegal Argument Exception");
@@ -240,12 +241,12 @@ public class Matrix {
         return matrix;
     }
 
-    public static Matrix sub(Matrix matrix1, Matrix matrix2) {
+    public static Matrix subtract(Matrix matrix1, Matrix matrix2) {
         if (matrix1.getRowCount() != matrix2.getRowCount() || matrix1.getColumnCount() != matrix2.getColumnCount()) {
             throw new IllegalArgumentException("Illegal Argument Exception");
         }
         Matrix matrix = new Matrix(matrix1);
-        matrix.sub(matrix2);
+        matrix.subtract(matrix2);
         return matrix;
     }
 
@@ -257,11 +258,10 @@ public class Matrix {
         Matrix mul = new Matrix(rowCount, rowCount);
         for (int i = 0; i < rowCount; ++i) {
             for (int j = 0; j < rowCount; ++j) {
-                double support = scalarMultiplication(matrix1.getRow(i), matrix2.getColumn(j));
-                mul.row[i].setCoordinate(j, (int) support);
+                double support = scalarMultiplicationVectors(matrix1.getRow(i), matrix2.getColumn(j));
+                mul.row[i].setCoordinate(support , j);
             }
         }
         return mul;
     }
-
 }

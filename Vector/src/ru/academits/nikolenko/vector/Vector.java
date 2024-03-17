@@ -60,6 +60,7 @@ public class Vector {
             this.coordinates[i] += vector.coordinates[i];
         }
     }
+
     public void subtractVectors(Vector vector) {
         int size = this.getSize();
         int vectorSize = vector.getSize();
@@ -72,7 +73,8 @@ public class Vector {
             this.coordinates[i] -= vector.coordinates[i];
         }
     }
-    public void scalarMultiplication( double scalar) {
+
+    public void scalarMultiplication(double scalar) {
         int size = this.getSize();
         for (int i = 0; i < size; i++) {
             this.coordinates[i] *= scalar;
@@ -98,7 +100,7 @@ public class Vector {
         return (int) coordinates[number];
     }
 
-    public void setCoordinate(int coordinate, int number) {
+    public void setCoordinate(double coordinate, int number) {
         this.coordinates[number] = coordinate;
     }
 
@@ -114,8 +116,8 @@ public class Vector {
             return false;
         }
         int size = coordinates.length;
-        for (int i=0; i<size; i++){
-            if (this.coordinates[i] != p.coordinates[i]){
+        for (int i = 0; i < size; i++) {
+            if (this.coordinates[i] != p.coordinates[i]) {
                 return false;
             }
         }
@@ -129,27 +131,27 @@ public class Vector {
         for (double coordinate : coordinates) {
             hash += prime * hash + coordinate;
         }
-        return (int)hash;
+        return (int) hash;
     }
 
-    public static Vector addVectors (Vector vector1, Vector vector2) {
+    public static Vector addVectors(Vector vector1, Vector vector2) {
         Vector vector = new Vector(vector1);
         vector.addVectors(vector2);
         return vector;
     }
 
-    public static Vector subtractVectors (Vector vector1, Vector vector2) {
+    public static Vector subtractVectors(Vector vector1, Vector vector2) {
         Vector vector = new Vector(vector1);
         vector.subtractVectors(vector2);
         return vector;
     }
 
-    public static double scalarMultiplicationVectors (Vector vector1, Vector vector2) {
+    public static double scalarMultiplicationVectors(Vector vector1, Vector vector2) {
         double multiplication = 0;
         int size = Math.min(vector1.getSize(), vector2.getSize());
-        for (int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             multiplication += vector1.coordinates[i] * vector2.coordinates[i];
         }
-        return  multiplication;
+        return multiplication;
     }
 }
