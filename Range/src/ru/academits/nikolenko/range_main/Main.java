@@ -2,15 +2,17 @@ package ru.academits.nikolenko.range_main;
 
 import ru.academits.nikolenko.range.Range;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Range range1 = new Range(1, 5);
 
-        System.out.println("Начало диапазона первого интервалла = " + range1.getFrom());
-        System.out.println("Конец диапазона первого интервалла = " + range1.getTo() + System.lineSeparator());
-        System.out.println("Длина диапазона = " + range1.getLength());
+        System.out.println("Первый интервал  = " + range1);
+        System.out.println("Начало диапазона первого интервала = " + range1.getFrom());
+        System.out.println("Конец диапазона первого интервала = " + range1.getTo());
+        System.out.println("Длина первого диапазона  = " + range1.getLength());
 
         Scanner scanner = new Scanner(System.in);
 
@@ -18,43 +20,38 @@ public class Main {
         double number = scanner.nextDouble();
 
         if (range1.isInside(number)) {
-            System.out.println("Число принадлежит диапазону" + System.lineSeparator());
+            System.out.println("Число принадлежит диапазону");
         } else {
-            System.out.println("Число не принадлежит диапазону" + System.lineSeparator());
+            System.out.println("Число не принадлежит диапазону");
         }
 
         Range range2 = new Range(3, 4);
-        System.out.println("Начало диапазона второго интервалла = " + range2.getFrom());
-        System.out.println("Конец диапазона второго интервалла = " + range2.getTo() + System.lineSeparator());
+        System.out.println("Второй интервал = " + range2);
 
-        Range range3 = range2.getIntersection(range1);
+        Range intersection = range2.getIntersection(range1);
 
-        if (range3 == null) {
-            System.out.println("У диапазонов нет пересечения");
+        if (intersection == null) {
+            System.out.println("У диапазонов 1 и 2 нет пересечения");
         } else {
-            System.out.println("Начало диапазона пересечения = " + range3.getFrom());
-            System.out.println("Конец диапазона пересечения = " + range3.getTo() + System.lineSeparator());
+            System.out.println("Пересечения диапазонов 1 и 2 = " + intersection);
         }
 
-        Range[] rangeArraysCombining = range2.getCombining(range1);
-        for (Range range : rangeArraysCombining) {
-            System.out.println("Начало диапазона объединения = " + range.getFrom());
-            System.out.println("Конец диапазона объединения= " + range.getTo() + System.lineSeparator());
-        }
+        Range[] rangesArrayUnion = range2.getUnion(range1);
 
-        Range[] rangeArraysDifference = range1.getDifference(range2);
+        System.out.println("Объединения диапазонов 1 и 2 = " + Arrays.toString(rangesArrayUnion));
 
-        if (rangeArraysDifference == null) {
-            System.out.println("разность диапазонов равна 0");
+        Range[] rangesArrayDifference = range1.getDifference(range2);
+
+        if (rangesArrayDifference == null) {
+            System.out.println("Разность диапазонов пустая");
         } else {
-            for (Range range : rangeArraysDifference) {
-                System.out.println("Начало диапазона разности = " + range.getFrom());
-                System.out.println("Конец диапазона разности = " + range.getTo() + System.lineSeparator());
-            }
+            System.out.println("Диапазон разности первого и второго интервала = " + Arrays.toString(rangesArrayDifference));
         }
+
         range1.setFrom(3.5);
         range1.setTo(33.5);
-        System.out.println("Начало измененного диапазона = " + range1.getFrom());
-        System.out.println("Конец измененного диапазона = " + range1.getTo());
+        System.out.println("Начало измененного первого диапазона = " + range1.getFrom());
+        System.out.println("Конец измененного первого диапазона = " + range1.getTo());
+        System.out.println("Первый диапазон : " + range1);
     }
 }

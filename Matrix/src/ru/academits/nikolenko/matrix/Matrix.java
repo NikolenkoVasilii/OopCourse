@@ -201,11 +201,11 @@ public class Matrix {
         int width = this.getColumnCount();
         Vector mulResult = new Vector(height);
         for (int i = 0; i < height; ++i) {
-            double support = 0;
+            double temp = 0;
             for (int j = 0; j < width; ++j) {
-                support += this.getRow(i).getCoordinate(j) * vector.getCoordinate(j);
+                temp += this.getRow(i).getCoordinate(j) * vector.getCoordinate(j);
             }
-            mulResult.setCoordinate( support,i);
+            mulResult.setCoordinate( temp,i);
         }
         return mulResult;
     }
