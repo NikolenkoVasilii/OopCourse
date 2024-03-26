@@ -1,36 +1,39 @@
 package ru.academits.nikololenko.shapes;
 
 public class Square implements Shapes {
-    private final double length;
+    private final double sideLength;
 
-    public Square(double length) {
-        this.length = length;
+    public Square(double sideLength) {
+        this.sideLength = sideLength;
+    }
+
+    public double getSideLength() {
+        return sideLength;
     }
 
     @Override
     public double getWidth() {
-        return length;
+        return sideLength;
     }
 
     @Override
     public double getHeight() {
-        return length;
+        return sideLength;
     }
 
     @Override
     public double getArea() {
-        return length * length;
+        return sideLength * sideLength;
     }
 
     @Override
     public double getPerimeter() {
-        return length * 4;
+        return sideLength * 4;
     }
 
     @Override
     public String toString() {
-        return "квадрат: " +
-                "длина = " + this.getWidth() + "," + "высота = " + this.getHeight() + "," + "площадь = " + this.getArea() + "," + "периметр = " + this.getPerimeter();
+        return "[" + sideLength + "]";
     }
 
     @Override
@@ -38,17 +41,18 @@ public class Square implements Shapes {
         if (o == this) {
             return true;
         }
+
         if (o == null || o.getClass() != getClass()) {
             return false;
         }
-        Square p = (Square) o;
-        return length == p.length;
+
+        Square square = (Square) o;
+        return sideLength == square.sideLength;
     }
+
     @Override
     public int hashCode() {
         final int prime = 37;
-        double hash = 1;
-        hash = prime * hash + length;
-        return (int)hash;
+        return prime + Double.hashCode(sideLength);
     }
 }

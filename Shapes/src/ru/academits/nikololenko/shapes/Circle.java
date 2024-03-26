@@ -5,7 +5,6 @@ public class Circle implements Shapes {
 
     public Circle(double radius) {
         this.radius = radius;
-
     }
 
     @Override
@@ -20,7 +19,7 @@ public class Circle implements Shapes {
 
     @Override
     public double getArea() {
-        return Math.PI * Math.pow(radius, 2);
+        return Math.PI * radius * radius;
     }
 
     @Override
@@ -28,10 +27,13 @@ public class Circle implements Shapes {
         return 2 * Math.PI * radius;
     }
 
+    public double getRadius() {
+        return radius;
+    }
+
     @Override
     public String toString() {
-        return "круг: " +
-                "длина = " + this.getWidth() + "," + "высота = " + this.getHeight() + "," + "площадь = " + this.getArea() + "," + "периметр = " + this.getPerimeter();
+        return "[" + radius + "]";
     }
 
     @Override
@@ -39,18 +41,18 @@ public class Circle implements Shapes {
         if (o == this) {
             return true;
         }
+
         if (o == null || o.getClass() != getClass()) {
             return false;
         }
-        Circle p = (Circle) o;
-        return radius == p.radius;
+
+        Circle circle = (Circle) o;
+        return radius == circle.radius;
     }
 
     @Override
     public int hashCode() {
         final int prime = 37;
-        double hash = 1;
-        hash = prime * hash + radius;
-        return (int)hash;
+        return prime + Double.hashCode(radius);
     }
 }

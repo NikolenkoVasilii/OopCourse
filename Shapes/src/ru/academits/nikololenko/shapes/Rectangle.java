@@ -1,38 +1,40 @@
 package ru.academits.nikololenko.shapes;
 
-public class Rectangle implements Shapes {
-    private final double length1;
-    private final double length2;
+import java.util.Arrays;
 
-    public Rectangle(double length1, double length2) {
-        this.length1 = length1;
-        this.length2 = length2;
+public class Rectangle implements Shapes {
+    private final double width;
+    private final double height;
+
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
     }
 
     @Override
     public double getWidth() {
-        return Math.min(length1,length2);
+        return width;
     }
 
     @Override
     public double getHeight() {
-        return Math.max(length1,length2);
+        return height;
     }
 
     @Override
     public double getArea() {
-        return length1 * length2;
+        return width * height;
     }
 
     @Override
     public double getPerimeter() {
-        return (length1 + length2) * 2;
+        return (width + height) * 2;
     }
 
     @Override
     public String toString() {
-        return "прямоугольник: " +
-                "длина = " + this.getWidth() + "," + "высота = " + this.getHeight() + "," + "площадь = " + this.getArea() + "," + "периметр = " + this.getPerimeter();
+        double[] rectangleSides = {width, height};
+        return Arrays.toString(rectangleSides);
     }
 
     @Override
@@ -40,17 +42,20 @@ public class Rectangle implements Shapes {
         if (o == this) {
             return true;
         }
-        if (o == null || o.getClass() != getClass()) {
+
+        if (o == null || o.getClass() != this.getClass()) {
             return false;
         }
-        Rectangle p = (Rectangle) o;
-        return length1 == p.length1 && length2 == p.length2 || length1 ==  p.length2 && length2 == p.length1 ;
+
+        Rectangle rectangle = (Rectangle) o;
+        return (width == rectangle.width) && (height == rectangle.height);
     }
+
     @Override
     public int hashCode() {
         final int prime = 37;
-        double hash = 1;
-        hash = prime * hash + length1 +  prime * hash + length2;
-        return (int)hash;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(width) + Double.hashCode(height);
+        return hash;
     }
 }

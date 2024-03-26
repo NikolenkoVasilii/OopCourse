@@ -6,14 +6,14 @@ import java.util.Arrays;
 
 
 public class Main {
+    private static Shapes getShapeWithMaxArea(Shapes... shapes) {
+        Arrays.sort(shapes, new ShapeComparatorArea());
+        return shapes[shapes.length - 1];
+    }
 
-    public static void areaSorting(Shapes[] arrayShapes) {
-        Arrays.sort(arrayShapes, (first, second) -> {
-            if (first.getArea() != second.getArea()) {
-                return (int) (second.getArea() - first.getArea());
-            }
-            return 0;
-        });
+    private static Shapes getShapeWithSecondPerimeter(Shapes... shapes) {
+        Arrays.sort(shapes, new ShapeComparatorPerimeter());
+        return shapes[shapes.length - 2];
     }
 
     public static void main(String[] args) {
@@ -27,22 +27,30 @@ public class Main {
         Circle circle2 = new Circle(10);
 
         final Shapes[] shapes = {square1, square2, rectangle1, rectangle2, triangle1, triangle2, circle1, circle2};
-        areaSorting(shapes);
-        System.out.println(Arrays.toString(shapes));
-
-        Shapes firstShape = shapes[0];
-        Shapes secondShape = shapes[1];
-
-        System.out.println("фигура с максимальной площадью - " + firstShape);
-        System.out.println("фигура со второй площадью - " + secondShape);
-
-        if (rectangle1.equals(rectangle2)) {
-            System.out.println("Прямоугольники равны");
-        } else {
-            System.out.println("Прямоугольники не равны");
+        for (Shapes shape : shapes) {
+            System.out.println("Класс фигуры: " + shape.getClass() + "\n" + "Поля фигуры" + shape);
+            System.out.println("Площадь фигуры: " + shape.getArea());
+            System.out.println("Периметр фигуры: " + shape.getPerimeter() + "\n");
         }
 
+        if (rectangle1.equals(rectangle2)) {
+            System.out.println("Прямоугольники 1 и 2 равны");
+        } else {
+            System.out.println("Прямоугольники 1 и 2 не равны");
+        }
 
+        Shapes maxShape = getShapeWithMaxArea(square1, square2, rectangle1, rectangle2, triangle1, triangle2, circle1, circle2);
+        System.out.println("Класс максимальной фигуры: " + maxShape.getClass());
+        System.out.println("Площадь максимальной фигуры = " + maxShape.getArea());
+        System.out.println("Ширина = " + maxShape.getWidth());
+        System.out.println("Высота = " + maxShape.getHeight());
+        System.out.println("Периметр = " + maxShape.getPerimeter());
+
+        Shapes secondShape = getShapeWithSecondPerimeter(square1, square2, rectangle1, rectangle2, triangle1, triangle2, circle1, circle2);
+        System.out.println("Класс фигуры со второй пофиличине площадью: " + maxShape.getClass());
+        System.out.println("Площадь второй по величине фигуры = " + secondShape.getArea());
+        System.out.println("Ширина = " + secondShape.getWidth());
+        System.out.println("Высота = " + secondShape.getHeight());
+        System.out.println("Периметр = " + secondShape.getPerimeter());
     }
-
 }
