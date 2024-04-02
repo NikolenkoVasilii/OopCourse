@@ -6,7 +6,7 @@ import ru.academits.nikolenko.vector.Vector;
 import java.util.Arrays;
 
 import static ru.academits.nikolenko.vector.Vector.*;
-
+/*
 public class Matrix {
     private final Vector[] row;
 
@@ -66,7 +66,7 @@ public class Matrix {
         }
         for (int i = 0; i < rowCount; ++i) {
             row[i] = new Vector(columnCount);
-            row[i].addVectors(vectors[i]);
+            row[i].add(vectors[i]);
         }
     }
 
@@ -120,7 +120,7 @@ public class Matrix {
         int columnCount = this.getColumnCount();
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
-                int temp = row[i].getCoordinate(j);
+                double temp = row[i].getCoordinate(j);
                 row[i].setCoordinate(getRow(j).getCoordinate(i) , j);
                 row[j].setCoordinate(temp, i);
             }
@@ -130,7 +130,7 @@ public class Matrix {
     public void scalarMultiplication(double scalar) {
         int rowCount = this.getRowCount();
         for (int i = 0; i < rowCount; i++) {
-            this.row[i].scalarMultiplication(scalar);
+            this.row[i].multiply(scalar);
         }
     }
 
@@ -216,7 +216,7 @@ public class Matrix {
             throw new IllegalArgumentException("Illegal Argument Exception");
         }
         for (int i = 0; i < height; ++i) {
-            Vector vector = addVectors(this.getRow(i), matrix.getRow(i));
+            Vector vector = getSum(this.getRow(i), matrix.getRow(i));
             this.setRow(i, vector);
         }
     }
@@ -227,7 +227,7 @@ public class Matrix {
             throw new IllegalArgumentException("Illegal Argument Exception");
         }
         for (int i = 0; i < height; ++i) {
-            Vector vector = subtractVectors(this.getRow(i), matrix.getRow(i));
+            Vector vector = getDifference(this.getRow(i), matrix.getRow(i));
             this.setRow(i, vector);
         }
     }
@@ -258,10 +258,10 @@ public class Matrix {
         Matrix mul = new Matrix(rowCount, rowCount);
         for (int i = 0; i < rowCount; ++i) {
             for (int j = 0; j < rowCount; ++j) {
-                double support = scalarMultiplicationVectors(matrix1.getRow(i), matrix2.getColumn(j));
+                double support = getScalarProduct(matrix1.getRow(i), matrix2.getColumn(j));
                 mul.row[i].setCoordinate(support , j);
             }
         }
         return mul;
     }
-}
+}*/

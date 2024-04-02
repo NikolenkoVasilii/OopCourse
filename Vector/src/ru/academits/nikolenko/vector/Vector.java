@@ -5,31 +5,33 @@ import java.util.Arrays;
 public class Vector {
     private double[] coordinates;
 
-    public Vector(int n) {
-        if (n <= 0) {
-            throw new IllegalArgumentException("Illegal Argument Exception");
+    public Vector(int size) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Нельзя создать вектор длины 0 и меньше, текущая длина " + size);
         }
-        coordinates = new double[n];
+
+        coordinates = new double[size];
     }
 
     public Vector(Vector vector) {
-        int n = vector.getSize();
-        coordinates = Arrays.copyOf(vector.coordinates, n);
+        coordinates = Arrays.copyOf(vector.coordinates, vector.coordinates.length);
     }
 
     public Vector(double[] coordinates) {
-        int n = coordinates.length;
-        if (n == 0) {
-            throw new IllegalArgumentException("Illegal Argument Exception");
+
+        if (coordinates.length == 0) {
+            throw new IllegalArgumentException("Размер переданного массива = 0");
         }
-        this.coordinates = Arrays.copyOf(coordinates, n);
+
+        this.coordinates = Arrays.copyOf(coordinates, coordinates.length);
     }
 
-    public Vector(int n, double[] coordinates) {
-        if (n <= 0 || coordinates.length == 0) {
-            throw new IllegalArgumentException("Illegal Argument Exception");
+    public Vector(int size, double[] coordinates) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Нельзя создать вектор длины 0 и меньше, текущая длина " + size);
         }
-        this.coordinates = Arrays.copyOf(coordinates, n);
+
+        this.coordinates = Arrays.copyOf(coordinates, size);
     }
 
     public int getSize() {
@@ -40,118 +42,109 @@ public class Vector {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{");
-        int size = getSize();
-        for (int i = 0; i < size; i++) {
-            stringBuilder.append(coordinates[i]).append(", ");
+
+        for (double coordinate : coordinates) {
+            stringBuilder.append(coordinate).append(", ");
         }
-        stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length() - 1).append("}");
+
+        stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length()).append("}");
         return stringBuilder.toString();
     }
 
-    public void addVectors(Vector vector) {
-        int size = this.getSize();
-        int vectorSize = vector.getSize();
+    public void add(Vector vector) {
+        int size = coordinates.length;
+        int vectorSize = vector.coordinates.length;
+
         if (size < vectorSize) {
-            this.coordinates = Arrays.copyOf(coordinates, vectorSize);
-        } else if (size > vectorSize) {
-            vector.coordinates = Arrays.copyOf(coordinates, size);
+            coordinates = Arrays.copyOf(coordinates, vectorSize);
         }
-        for (int i = 0; i < Math.max(size, vectorSize); i++) {
-            this.coordinates[i] += vector.coordinates[i];
+
+        for (int i = 0; i < vectorSize; i++) {
+            coordinates[i] += vector.coordinates[i];
         }
     }
 
     public void subtractVectors(Vector vector) {
-        int size = this.getSize();
-        int vectorSize = vector.getSize();
+        int size = coordinates.length;
+        int vectorSize = vector.coordinates.length;
+
         if (size < vectorSize) {
-            this.coordinates = Arrays.copyOf(coordinates, vectorSize);
-        } else if (size > vectorSize) {
-            vector.coordinates = Arrays.copyOf(coordinates, size);
+            coordinates = Arrays.copyOf(coordinates, vectorSize);
         }
-        for (int i = 0; i < Math.max(size, vectorSize); i++) {
-            this.coordinates[i] -= vector.coordinates[i];
+
+        for (int i = 0; i < vectorSize; i++) {
+            coordinates[i] -= vector.coordinates[i];
         }
     }
 
-    public void scalarMultiplication(double scalar) {
-        int size = this.getSize();
-        for (int i = 0; i < size; i++) {
+    public void multiply(double scalar) {
+        for (int i = 0; i < coordinates.length; i++) {
             this.coordinates[i] *= scalar;
         }
     }
 
-    public void reversVector() {
-        int size = this.getSize();
-        for (int i = 0; i < size; i++) {
-            this.coordinates[i] *= -1;
+    public void reverse() {
+        multiply(-1);
+    }
+
+    public double getLength() {
+        double sum = 0;
+
+        for (double coordinate : this.coordinates) {
+            sum += coordinate * coordinate;
         }
+
+        return Math.sqrt(sum);
     }
 
-    public double length() {
-        double support = 0;
-        for (double element : this.coordinates) {
-            support += Math.pow(element, 2);
-        }
-        return Math.sqrt(support);
+    public double getCoordinate(int index) {
+        return coordinates[index];
     }
 
-    public int getCoordinate(int number) {
-        return (int) coordinates[number];
+    public void setCoordinate(int index, double coordinate) {
+        coordinates[index] = coordinate;
     }
 
-    public void setCoordinate(double coordinate, int number) {
-        this.coordinates[number] = coordinate;
-    }
-
+    @Override
     public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
+
         if (o == null || o.getClass() != getClass()) {
             return false;
         }
-        Vector p = (Vector) o;
-        if (this.getSize() != p.getSize()) {
-            return false;
-        }
-        int size = coordinates.length;
-        for (int i = 0; i < size; i++) {
-            if (this.coordinates[i] != p.coordinates[i]) {
-                return false;
-            }
-        }
-        return true;
+
+        Vector vector = (Vector) o;
+
+        return Arrays.equals(coordinates, vector.coordinates);
     }
 
     @Override
     public int hashCode() {
-        final int prime = 37;
-        double hash = 1;
-        for (double coordinate : coordinates) {
-            hash += prime * hash + coordinate;
-        }
-        return (int) hash;
+        return Arrays.hashCode(coordinates);
     }
 
-    public static Vector addVectors(Vector vector1, Vector vector2) {
+    public static Vector getSum(Vector vector1, Vector vector2) {
         Vector vector = new Vector(vector1);
-        vector.addVectors(vector2);
+        vector.add(vector2);
         return vector;
     }
 
-    public static Vector subtractVectors(Vector vector1, Vector vector2) {
+    public static Vector getDifference(Vector vector1, Vector vector2) {
         Vector vector = new Vector(vector1);
         vector.subtractVectors(vector2);
         return vector;
     }
 
-    public static double scalarMultiplicationVectors(Vector vector1, Vector vector2) {
+    public static double getScalarProduct(Vector vector1, Vector vector2) {
         double multiplication = 0;
         int size = Math.min(vector1.getSize(), vector2.getSize());
+
         for (int i = 0; i < size; i++) {
             multiplication += vector1.coordinates[i] * vector2.coordinates[i];
         }
+
         return multiplication;
     }
 }
