@@ -1,7 +1,5 @@
 package ru.academits.nikololenko.shapes;
 
-import java.util.Arrays;
-
 public class Triangle implements Shapes {
     private final double x1;
     private final double y1;
@@ -43,20 +41,20 @@ public class Triangle implements Shapes {
         return y3;
     }
 
-    public static double getSideLength(double x1, double x2, double y1, double y2) {
-        return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+    public static double getSideLength(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2));
     }
 
-    private double getSide1() {
-        return getSideLength(x1, x2, y1, y2);
+    private double getSide1Length() {
+        return getSideLength(x1, y1, x2, y2);
     }
 
-    private double getSide2() {
-        return getSideLength(x2, x3, y2, y3);
+    private double getSide2Length() {
+        return getSideLength(x2, y2, x3, y3);
     }
 
-    private double getSide3() {
-        return getSideLength(x3, x1, y3, y1);
+    private double getSide3Length() {
+        return getSideLength(x3, y3, x1, y1);
     }
 
     @Override
@@ -71,26 +69,26 @@ public class Triangle implements Shapes {
 
     @Override
     public double getArea() {
-        double epsilon = 1.0e-10;
+        final double epsilon = 1.0e-10;
+
         if (Math.abs((y3 - y1) * (x2 - x1) - (x3 - x1) * (y2 - y1)) <= epsilon) {
             return 0;
         }
 
         double halfPerimeter = getPerimeter() / 2;
 
-        return Math.sqrt(halfPerimeter * (halfPerimeter - getSide1()) *
-                (halfPerimeter - getSide2()) * (halfPerimeter - getSide3()));
+        return Math.sqrt(halfPerimeter * (halfPerimeter - getSide1Length()) *
+                (halfPerimeter - getSide2Length()) * (halfPerimeter - getSide3Length()));
     }
 
     @Override
     public double getPerimeter() {
-        return getSide1() + getSide2() + getSide3();
+        return getSide1Length() + getSide2Length() + getSide3Length();
     }
 
     @Override
     public String toString() {
-        double[] coordinates = {x1, y1, x2, y2, x3, y3};
-        return Arrays.toString(coordinates);
+        return "Треугольник: координаты вершин (" + x1 + "; " + y1 + "), (" + x2 + "; " + y2 + "), (" + x3 + "; " + y3 + ")";
     }
 
     @Override
@@ -104,15 +102,21 @@ public class Triangle implements Shapes {
         }
 
         Triangle triangle = (Triangle) o;
-        return x1 == triangle.x1 && y1 == triangle.y1 && x2 == triangle.x2 && y2 == triangle.y2 && x3 == triangle.x3 && y3 == triangle.y3;
+        return x1 == triangle.x1 && y1 == triangle.y1
+                && x2 == triangle.x2 && y2 == triangle.y2
+                && x3 == triangle.x3 && y3 == triangle.y3;
     }
 
     @Override
     public int hashCode() {
         final int prime = 37;
         int hash = 1;
-        hash = prime * hash + Double.hashCode(x1) + Double.hashCode(y1) + Double.hashCode(x2) + Double.hashCode(y2) +
-                Double.hashCode(x3) + Double.hashCode(y3);
+        hash = prime * hash + Double.hashCode(x1);
+        hash = prime * hash + Double.hashCode(y1);
+        hash = prime * hash + Double.hashCode(x2);
+        hash = prime * hash + Double.hashCode(y2);
+        hash = prime * hash + Double.hashCode(x3);
+        hash = prime * hash + Double.hashCode(y3);
         return hash;
     }
 }

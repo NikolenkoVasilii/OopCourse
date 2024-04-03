@@ -1,7 +1,5 @@
 package ru.academits.nikololenko.shapes;
 
-import java.util.Arrays;
-
 public class Rectangle implements Shapes {
     private final double width;
     private final double height;
@@ -33,8 +31,7 @@ public class Rectangle implements Shapes {
 
     @Override
     public String toString() {
-        double[] rectangleSides = {width, height};
-        return Arrays.toString(rectangleSides);
+        return "Прямоугольник: ширина = " + width + ", высота = " + height;
     }
 
     @Override
@@ -43,19 +40,20 @@ public class Rectangle implements Shapes {
             return true;
         }
 
-        if (o == null || o.getClass() != this.getClass()) {
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
 
         Rectangle rectangle = (Rectangle) o;
-        return (width == rectangle.width) && (height == rectangle.height);
+        return width == rectangle.width && height == rectangle.height;
     }
 
     @Override
     public int hashCode() {
         final int prime = 37;
         int hash = 1;
-        hash = prime * hash + Double.hashCode(width) + Double.hashCode(height);
+        hash = prime * hash + Double.hashCode(width);
+        hash = prime * hash + Double.hashCode(height);
         return hash;
     }
 }

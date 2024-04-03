@@ -33,7 +33,7 @@ public class Square implements Shapes {
 
     @Override
     public String toString() {
-        return "[" + sideLength + "]";
+        return "Квадрат: Длина стороны = " + sideLength;
     }
 
     @Override
