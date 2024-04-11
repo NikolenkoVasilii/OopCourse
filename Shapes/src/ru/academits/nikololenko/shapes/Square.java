@@ -1,6 +1,6 @@
 package ru.academits.nikololenko.shapes;
 
-public class Square implements Shapes {
+public class Square implements Shape {
     private final double sideLength;
 
     public Square(double sideLength) {

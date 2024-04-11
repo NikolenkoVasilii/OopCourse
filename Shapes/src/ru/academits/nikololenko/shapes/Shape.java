@@ -1,6 +1,6 @@
 package ru.academits.nikololenko.shapes;
 
-public interface Shapes {
+public interface Shape {
     double getWidth();
 
     double getHeight();

@@ -1,6 +1,6 @@
 package ru.academits.nikololenko.shapes;
 
-public class Triangle implements Shapes {
+public class Triangle implements Shape {
     private final double x1;
     private final double y1;
     private final double x2;
@@ -42,7 +42,7 @@ public class Triangle implements Shapes {
     }
 
     public static double getSideLength(double x1, double y1, double x2, double y2) {
-        return Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2));
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
     private double getSide1Length() {
@@ -70,15 +70,18 @@ public class Triangle implements Shapes {
     @Override
     public double getArea() {
         final double epsilon = 1.0e-10;
+        double side1Length = getSide1Length();
+        double side2Length = getSide2Length();
+        double side3Length = getSide3Length();
 
         if (Math.abs((y3 - y1) * (x2 - x1) - (x3 - x1) * (y2 - y1)) <= epsilon) {
             return 0;
         }
 
-        double halfPerimeter = getPerimeter() / 2;
+        double halfPerimeter = (side1Length + side2Length + side3Length) / 2;
 
-        return Math.sqrt(halfPerimeter * (halfPerimeter - getSide1Length()) *
-                (halfPerimeter - getSide2Length()) * (halfPerimeter - getSide3Length()));
+        return Math.sqrt(halfPerimeter * (halfPerimeter - side1Length) *
+                (halfPerimeter - side2Length) * (halfPerimeter - side3Length));
     }
 
     @Override

@@ -1,6 +1,6 @@
 package ru.academits.nikololenko.shapes;
 
-public class Rectangle implements Shapes {
+public class Rectangle implements Shape {
     private final double width;
     private final double height;
 
