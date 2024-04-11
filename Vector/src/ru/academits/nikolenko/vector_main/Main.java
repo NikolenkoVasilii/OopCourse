@@ -20,7 +20,7 @@ public class Main {
         vector1.add(vector4);
         System.out.println("Вектор1, равный сумме вектора 1 и вектора 4 = " + vector1);
 
-        vector1.subtractVectors(vector4);
+        vector1.subtract(vector4);
         System.out.println("Вектор1, равный разности вектора 1 и вектора 4 = " + vector1);
 
         Vector vector5 = new Vector(array1);
