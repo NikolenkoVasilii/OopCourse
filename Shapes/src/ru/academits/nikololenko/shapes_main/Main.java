@@ -38,7 +38,7 @@ public class Main {
         };
 
         for (Shape shape : shapes) {
-            System.out.println(shape);
+            System.out.println(shape.toString());
         }
 
         System.out.println();
