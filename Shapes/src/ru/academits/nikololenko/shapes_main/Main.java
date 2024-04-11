@@ -1,8 +1,8 @@
 package ru.academits.nikololenko.shapes_main;
 
 import ru.academits.nikololenko.shapes.*;
-import ru.academits.nikololenko.shapes_comparator.ShapeAreaComparator;
-import ru.academits.nikololenko.shapes_comparator.ShapePerimeterComparator;
+import ru.academits.nikololenko.shapes_comparators.ShapeAreaComparator;
+import ru.academits.nikololenko.shapes_comparators.ShapePerimeterComparator;
 
 import java.util.Arrays;
 

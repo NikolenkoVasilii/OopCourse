@@ -1,4 +1,4 @@
-package ru.academits.nikololenko.shapes_comparator;
+package ru.academits.nikololenko.shapes_comparators;
 
 import java.util.Comparator;
 
