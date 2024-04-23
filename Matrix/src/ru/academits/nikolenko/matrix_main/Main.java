@@ -41,7 +41,7 @@ public class Main {
         matrix4.setRow(0, vector3);
         System.out.println("матрица 4 с измененной ещё и первой строкой = \n" + matrix4);
 
-        matrix4.scalarMultiplication(4);
+        matrix4.multiplyByScalar(4);
         System.out.println("матрица 4 скалярно умноженная на 4 = \n" + matrix4);
 
         double[][] array5 = {{2, 3}, {3, 4}};
@@ -62,9 +62,9 @@ public class Main {
 
         double[][] array7 = {{2, 3, 3, 5}, {3, 4, 1, 6}};
         Matrix matrix7 = new Matrix(array7);
-        matrix1.sum(matrix7);
+        matrix1.add(matrix7);
         System.out.println("матрица 1, равная сумме матрицы 1 и матрицы 7 = \n" + matrix1);
-        matrix1.sum(matrix7);
+        matrix1.add(matrix7);
         System.out.println("матрица 1, равная сумме матрицы 1 и матрицы 7 = \n" + matrix1);
 
         matrix1.subtract(matrix7);
@@ -76,21 +76,19 @@ public class Main {
 
         System.out.println("матрица 8 = \n" + matrix8);
         System.out.println("матрица 9 = \n" + matrix9);
-        Matrix matrix10 = Matrix.sum(matrix8, matrix9);
+        Matrix matrix10 = Matrix.getSum(matrix8, matrix9);
         System.out.println("Матрица 10, равная сумме матрицы 8 и матрицы 9 = \n" + matrix10);
 
-        Matrix matrix11 = Matrix.subtract(matrix8, matrix9);
+        Matrix matrix11 = Matrix.getDifference(matrix8, matrix9);
         System.out.println("Матрица 11, равная разности матрицы 8 и матрицы 9 = \n" + matrix11);
 
         double[][] array9 = {{2,3},{3,4}, {4,5}, {5,6}};
         Matrix matrix12 = new Matrix(array9);
         System.out.println("Матрица 12 = \n" + matrix12);
-        Matrix matrix13 = Matrix.mul(matrix9, matrix12);
+        Matrix matrix13 = Matrix.getProduct(matrix9, matrix12);
         System.out.println("Матрица 13, равная умножению матрицы 8 и матрицы 12 = \n" + matrix13);
 
         matrix13.transposition();
         System.out.println("Транспонированная матрица 13 = \n" + matrix13);
-
-        
     }
 }

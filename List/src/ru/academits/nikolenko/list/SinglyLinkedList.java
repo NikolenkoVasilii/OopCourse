@@ -155,14 +155,14 @@ public class SinglyLinkedList<T> {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("{");
+        stringBuilder.append('{');
 
         ListItem<T> p = head;
         for (; p.getNext() != null; p = p.getNext()) {
             stringBuilder.append(p.getData().toString()).append(", ");
         }
 
-        stringBuilder.append(p.getData().toString()).append("}");
+        stringBuilder.append(p.getData().toString()).append('}');
         return stringBuilder.toString();
     }
 }
