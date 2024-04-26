@@ -108,7 +108,7 @@ public class SinglyLinkedList<T> {
         for (ListItem<T> p = head.getNext(), prev = head;
              prev != null;
              prev = p, p = p.getNext()) {
-            if (counter == index) {
+            if (counter == index-1) {
                 p = new ListItem<>(data, p);
                 prev.setNext(p);
                 count++;
@@ -148,8 +148,13 @@ public class SinglyLinkedList<T> {
     }
 
     public void turn() {
-
-
+        ListItem<T> p = head;
+        ListItem<T> prev =null;
+        for (ListItem<T> next = p.getNext(); next != null; prev = p, p = next, next = next.getNext()) {
+            p.setNext(prev);
+        }
+        p.setNext(prev);
+        head = p;
     }
 
     @Override
@@ -164,5 +169,26 @@ public class SinglyLinkedList<T> {
 
         stringBuilder.append(p.getData().toString()).append('}');
         return stringBuilder.toString();
+    }
+
+    public SinglyLinkedList getCopy(){
+        SinglyLinkedList copy = new SinglyLinkedList();
+
+        if (head == null){
+            return copy;
+        }
+
+        ListItem<T> copyItem = new ListItem<>(head.getData());
+        ListItem<T> next = head.getNext();
+        copy.head =copyItem;
+
+        int i = 1;
+        while (i < getSize()){
+            copyItem.setNext(new ListItem<>(next.getData()));
+            next = next.getNext();
+            copyItem = copyItem.getNext();
+            i++;
+        }
+        return copy;
     }
 }
