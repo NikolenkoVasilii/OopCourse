@@ -4,7 +4,6 @@ import ru.academits.nikololenko.shapes.Shape;
 
 import java.util.Comparator;
 
-
 public class ShapeAreaComparator implements Comparator<Shape> {
     @Override
     public int compare(Shape shape1, Shape shape2) {

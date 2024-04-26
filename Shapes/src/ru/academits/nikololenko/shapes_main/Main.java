@@ -17,7 +17,7 @@ public class Main {
     }
 
     private static Shape getShapeWithSecondPerimeter(Shape... shapes) {
-        if (shapes.length == 0 || shapes.length == 1) {
+        if (shapes.length <= 1) {
             return null;
         }
 
@@ -38,7 +38,7 @@ public class Main {
         };
 
         for (Shape shape : shapes) {
-            System.out.println(shape.toString());
+            System.out.println(shape);
         }
 
         System.out.println();
@@ -46,7 +46,7 @@ public class Main {
         Shape shapeWithMaxArea = getShapeWithMaxArea(shapes);
 
         if (shapeWithMaxArea == null) {
-            System.out.println("Задан пустой массив фигур");
+            System.out.println("Задан пустой массив из менее чем двух фигур");
         } else {
             System.out.println("Фигура с наибольшей площадью: " + shapeWithMaxArea);
             System.out.println("Площадь этой фигуры = " + shapeWithMaxArea.getArea());

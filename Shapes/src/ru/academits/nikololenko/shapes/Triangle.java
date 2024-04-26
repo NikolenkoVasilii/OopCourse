@@ -41,7 +41,7 @@ public class Triangle implements Shape {
         return y3;
     }
 
-    public static double getSideLength(double x1, double y1, double x2, double y2) {
+    private static double getSideLength(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
@@ -70,14 +70,14 @@ public class Triangle implements Shape {
     @Override
     public double getArea() {
         final double epsilon = 1.0e-10;
-        double side1Length = getSide1Length();
-        double side2Length = getSide2Length();
-        double side3Length = getSide3Length();
 
         if (Math.abs((y3 - y1) * (x2 - x1) - (x3 - x1) * (y2 - y1)) <= epsilon) {
             return 0;
         }
 
+        double side1Length = getSide1Length();
+        double side2Length = getSide2Length();
+        double side3Length = getSide3Length();
         double halfPerimeter = (side1Length + side2Length + side3Length) / 2;
 
         return Math.sqrt(halfPerimeter * (halfPerimeter - side1Length) *

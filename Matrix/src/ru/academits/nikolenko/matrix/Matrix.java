@@ -150,7 +150,7 @@ public class Matrix {
         }
     }
 
-    public void multiplyByScalar (double scalar) {
+    public void multiplyByScalar(double scalar) {
         int rowCount = getRowCount();
 
         for (int i = 0; i < rowCount; i++) {
@@ -170,28 +170,18 @@ public class Matrix {
         }
 
         if (height == 2) {
-            return getRow(0).getCoordinate(0) * getRow(1).getCoordinate(1) -
-                    getRow(0).getCoordinate(1) * getRow(1).getCoordinate(0);
+            return getRow(0).getCoordinate(0) * getRow(1).getCoordinate(1) - getRow(0).getCoordinate(1) * getRow(1).getCoordinate(0);
         }
 
         if (height == 3) {
-            return getRow(0).getCoordinate(0) * getRow(1).getCoordinate(1) *
-                    getRow(2).getCoordinate(2) + getRow(2).getCoordinate(0) *
-                    getRow(0).getCoordinate(1) * getRow(1).getCoordinate(2) +
-                    getRow(0).getCoordinate(2) * getRow(1).getCoordinate(0) *
-                            getRow(2).getCoordinate(1) - getRow(0).getCoordinate(2) *
-                    getRow(1).getCoordinate(1) * getRow(2).getCoordinate(0) -
-                    getRow(1).getCoordinate(0) * getRow(0).getCoordinate(1) *
-                            getRow(2).getCoordinate(2) - getRow(0).getCoordinate(0) *
-                    getRow(2).getCoordinate(1) * getRow(1).getCoordinate(2);
+            return getRow(0).getCoordinate(0) * getRow(1).getCoordinate(1) * getRow(2).getCoordinate(2) + getRow(2).getCoordinate(0) * getRow(0).getCoordinate(1) * getRow(1).getCoordinate(2) + getRow(0).getCoordinate(2) * getRow(1).getCoordinate(0) * getRow(2).getCoordinate(1) - getRow(0).getCoordinate(2) * getRow(1).getCoordinate(1) * getRow(2).getCoordinate(0) - getRow(1).getCoordinate(0) * getRow(0).getCoordinate(1) * getRow(2).getCoordinate(2) - getRow(0).getCoordinate(0) * getRow(2).getCoordinate(1) * getRow(1).getCoordinate(2);
         }
 
         int decompositionIndex = 0;
         double determinant = 0;
 
         for (int i = 0; i < height; i++) {
-            determinant += Math.pow(-1, i) * getRow(i).getCoordinate(decompositionIndex) *
-                    getMinor(this, i, decompositionIndex);
+            determinant += Math.pow(-1, i) * getRow(i).getCoordinate(decompositionIndex) * getMinor(this, i, decompositionIndex);
         }
 
         return determinant;
