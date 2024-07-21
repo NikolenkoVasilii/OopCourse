@@ -2,7 +2,6 @@ package ru.academits.nikolenko.matrix;
 
 import ru.academits.nikolenko.vector.Vector;
 
-
 public class Matrix {
     private Vector[] rows;
 
@@ -230,7 +229,7 @@ public class Matrix {
 
         if (rowCount != matrix.getRowCount() || getColumnCount() != matrix.getColumnCount()) {
             throw new IllegalArgumentException("Складывать можно только одноразмерные матрицы, сейчас размер первой матрицы" +
-                    getRowCount() + "," + matrix.getColumnCount() + ", а размер второй " + matrix.getRowCount() + "," +  matrix.getColumnCount());
+                    getRowCount() + "," + matrix.getColumnCount() + ", а размер второй " + matrix.getRowCount() + "," + matrix.getColumnCount());
         }
 
         for (int i = 0; i < rows.length; i++) {
@@ -243,7 +242,7 @@ public class Matrix {
 
         if (rowCount != matrix.getRowCount() || getColumnCount() != matrix.getColumnCount()) {
             throw new IllegalArgumentException("Вычитать можно только одноразмерные матрицы, сейчас размер первой матрицы" +
-                    getRowCount() + "," + matrix.getColumnCount() + ", а размер второй " + matrix.getRowCount() + "," +  matrix.getColumnCount());
+                    getRowCount() + "," + matrix.getColumnCount() + ", а размер второй " + matrix.getRowCount() + "," + matrix.getColumnCount());
         }
 
         for (int i = 0; i < rowCount; ++i) {
@@ -253,9 +252,9 @@ public class Matrix {
 
     public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
 
-        if (!isSizeEquals(matrix1,matrix2)) {
+        if (!isSizeEquals(matrix1, matrix2)) {
             throw new IllegalArgumentException("Складывать можно только одноразмерные матрицы, сейчас размер первой матрицы" +
-                    matrix1.getRowCount() + "," + matrix1.getColumnCount() + ", а размер второй " + matrix2.getRowCount() + "," +  matrix2.getColumnCount());
+                    matrix1.getRowCount() + "," + matrix1.getColumnCount() + ", а размер второй " + matrix2.getRowCount() + "," + matrix2.getColumnCount());
         }
 
         Matrix matrix = new Matrix(matrix1);
@@ -263,13 +262,14 @@ public class Matrix {
         return matrix;
     }
 
-    public static boolean isSizeEquals(Matrix matrix1, Matrix matrix2){
-        return (matrix1.getRowCount()!= matrix2.getRowCount() ||matrix2.getRowCount() !=matrix2.getColumnCount());
+    public static boolean isSizeEquals(Matrix matrix1, Matrix matrix2) {
+        return (matrix1.getRowCount() != matrix2.getRowCount() || matrix2.getRowCount() != matrix2.getColumnCount());
     }
+
     public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
-        if (!isSizeEquals(matrix1,matrix2)) {
+        if (!isSizeEquals(matrix1, matrix2)) {
             throw new IllegalArgumentException("Вычитать можно только одноразмерные матрицы, сейчас размер первой матрицы" +
-                    matrix1.getRowCount() + "," + matrix1.getColumnCount() + ", а размер второй " + matrix2.getRowCount() + "," +  matrix2.getColumnCount());
+                    matrix1.getRowCount() + "," + matrix1.getColumnCount() + ", а размер второй " + matrix2.getRowCount() + "," + matrix2.getColumnCount());
         }
 
         Matrix matrix = new Matrix(matrix1);
