@@ -57,7 +57,7 @@ public class Main {
         double[][] array15 = {{2, 3, 3, 2}, {3, 4, 1, 5}, {3, 3, 3, 3}, {2, 2, 2, 2},};
         Matrix matrix15 = new Matrix(array15);
         double determinant15 = matrix15.getDeterminant();
-        System.out.println(" Определитель матрицы 15 =  " + determinant15);
+        System.out.println("Определитель матрицы 15 =  " + determinant15);
 
 
         double[][] array7 = {{2, 3, 3, 5}, {3, 4, 1, 6}};
@@ -88,7 +88,15 @@ public class Main {
         Matrix matrix13 = Matrix.getProduct(matrix9, matrix12);
         System.out.println("Матрица 13, равная умножению матрицы 8 и матрицы 12 = \n" + matrix13);
 
-        matrix13.transposition();
+        matrix13.transpose();
         System.out.println("Транспонированная матрица 13 = \n" + matrix13);
+
+        double[][] array10 = {{2, -1, 3}, {1, 2, 4}};
+        Matrix matrix14 = new Matrix(array10);
+        double[] array11 = {1, -2, 3};
+        Vector vector11 = new Vector(array11);
+
+        Vector vector12 = matrix14.multiplyByVector(vector11);
+        System.out.println("Результат умножения матрицы14 на вектор12 = " + vector12);
     }
 }
