@@ -17,7 +17,7 @@ public class SinglyLinkedList<T> {
 
     public T getData(int index) {
         if (index >= count || index < 0) {
-            throw new IllegalArgumentException("Данные по этому индексу отсутствуют");
+            throw new IllegalArgumentException("По данному индексу нет элемента");
         }
 
         if (index == 0) {
@@ -41,7 +41,7 @@ public class SinglyLinkedList<T> {
 
     public T setData(int index, T data) {
         if (index >= count || index < 0) {
-            throw new IllegalArgumentException("Данные по этому индексу отсутствуют");
+            throw new IllegalArgumentException("По данному индексу нет элемента");
         }
 
         int counter = 0;
@@ -61,7 +61,7 @@ public class SinglyLinkedList<T> {
 
     public T remove(int index) {
         if (index >= count || index < 0) {
-            throw new IllegalArgumentException("Данные по этому индексу отсутствуют");
+            throw new IllegalArgumentException("По данному индексу нет элемента");
         }
 
         if (index == 0) {
@@ -72,8 +72,7 @@ public class SinglyLinkedList<T> {
         T oldData = null;
 
         for (ListItem<T> p = head.getNext(), prev = head;
-             p != null;
-             prev = p, p = p.getNext()) {
+             p != null; prev = p, p = p.getNext()) {
             if (counter == index) {
                 oldData = p.getData();
                 prev.setNext(p.getNext());
@@ -88,8 +87,7 @@ public class SinglyLinkedList<T> {
     }
 
     public void addFirst(T data) {
-        ListItem<T> p = new ListItem<>(data, head);
-        head = p;
+        head = new ListItem<>(data, head);
         count++;
     }
 
@@ -97,6 +95,7 @@ public class SinglyLinkedList<T> {
         if (index >= count || index < 0) {
             throw new IllegalArgumentException("Данные по этому индексу отсутствуют");
         }
+
         if (index == 0) {
             addFirst(data);
             return;
@@ -119,13 +118,13 @@ public class SinglyLinkedList<T> {
     }
 
     public boolean remove(T data) {
-        boolean del = false;
+        boolean isRemoved = false;
 
         for (ListItem<T> p = head, prev = null;
              p != null;
              prev = p, p = p.getNext()) {
             if (p.getData().equals(data)) {
-                del = true;
+                isRemoved = true;
                 p = p.getNext();
 
                 if (prev != null) {
@@ -136,14 +135,17 @@ public class SinglyLinkedList<T> {
                 break;
             }
         }
-        return del;
+        return isRemoved;
     }
 
     public T removeFirst() {
-        T oldData = head.getData();
+        if (head == null) {
+            throw new IndexOutOfBoundsException("Cписок пуст");
+        }
+        T prev = head.getData();
         head = head.getNext();
         count--;
-        return oldData;
+        return prev;
     }
 
     public void turn() {
@@ -188,7 +190,7 @@ public class SinglyLinkedList<T> {
             copyItem = copyItem.getNext();
             i++;
         }
-        
+
         return copy;
     }
 }
