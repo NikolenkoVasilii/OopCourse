@@ -1,6 +1,6 @@
-package ru.academits.nikolenko.matrix;
+package ru.academits.nikolenko.arrayList.matrix;
 
-import ru.academits.nikolenko.vector.Vector;
+import ru.academits.nikolenko.arrayList.vector.Vector;
 
 public class Matrix {
     private Vector[] rows;
@@ -46,10 +46,11 @@ public class Matrix {
         }
 
         if (maxLength == 0) {
-            throw new IllegalArgumentException("Длинна хотябы одного элемента массива должна быть больше нуля");
+            throw new IllegalArgumentException("Длина хотя бы одного элемента массива должна быть больше нуля");
         }
 
         rows = new Vector[rowsCount];
+
         for (int i = 0; i < rowsCount; ++i) {
             rows[i] = new Vector(maxLength, array[i]);
         }
@@ -70,7 +71,6 @@ public class Matrix {
                 maxLength = vector.getSize();
             }
         }
-
 
         for (int i = 0; i < rowsCount; ++i) {
             rows[i] = new Vector(maxLength);
@@ -243,14 +243,14 @@ public class Matrix {
         }
     }
 
-    private static boolean areSizesNotEquals(Matrix matrix1, Matrix matrix2) {
-        return (matrix1.getRowsCount() == matrix2.getRowsCount() && matrix2.getRowsCount() == matrix2.getColumnsCount());
+    private static boolean areSizesNotEqual(Matrix matrix1, Matrix matrix2) {
+        return matrix1.getRowsCount() != matrix2.getRowsCount() || matrix2.getColumnsCount() != matrix2.getColumnsCount();
     }
 
     public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
-
-        if (areSizesNotEquals(matrix1, matrix2)) {
-            throw new IllegalArgumentException("Складывать можно только одноразмерные матрицы, сейчас размер первой матрицы " + matrix1.getRowsCount() + "," + matrix1.getColumnsCount() + ", а размер второй " + matrix2.getRowsCount() + "," + matrix2.getColumnsCount());
+        if (areSizesNotEqual(matrix1, matrix2)) {
+            throw new IllegalArgumentException("Складывать можно только одноразмерные матрицы, сейчас размер первой матрицы " +
+                    matrix1.getRowsCount() + "," + matrix1.getColumnsCount() + ", а размер второй " + matrix2.getRowsCount() + "," + matrix2.getColumnsCount());
         }
 
         Matrix matrix = new Matrix(matrix1);
@@ -259,8 +259,9 @@ public class Matrix {
     }
 
     public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
-        if (areSizesNotEquals(matrix1, matrix2)) {
-            throw new IllegalArgumentException("Вычитать можно только одноразмерные матрицы, сейчас размер первой матрицы " + matrix1.getRowsCount() + "," + matrix1.getColumnsCount() + ", а размер второй " + matrix2.getRowsCount() + ", " + matrix2.getColumnsCount());
+        if (areSizesNotEqual(matrix1, matrix2)) {
+            throw new IllegalArgumentException("Вычитать можно только одноразмерные матрицы, сейчас размер первой матрицы " +
+                    matrix1.getRowsCount() + "," + matrix1.getColumnsCount() + ", а размер второй " + matrix2.getRowsCount() + ", " + matrix2.getColumnsCount());
         }
 
         Matrix matrix = new Matrix(matrix1);
@@ -269,16 +270,16 @@ public class Matrix {
     }
 
     public static Matrix getProduct(Matrix matrix1, Matrix matrix2) {
-        int rowCount = matrix1.getRowsCount();
+        int rowsCount = matrix1.getRowsCount();
 
-        if (rowCount != matrix2.getColumnsCount()) {
-            throw new IllegalArgumentException("Умножать можно только матрицы, в которых количество строк первой матрицы = " + rowCount + " равно количеству столбцов второй = " + matrix2.getColumnsCount());
+        if (rowsCount != matrix2.getColumnsCount()) {
+            throw new IllegalArgumentException("Умножать можно только матрицы, в которых количество строк первой матрицы = " + rowsCount + " равно количеству столбцов второй = " + matrix2.getColumnsCount());
         }
 
-        Matrix resultMatrix = new Matrix(rowCount, rowCount);
+        Matrix resultMatrix = new Matrix(rowsCount, rowsCount);
 
-        for (int i = 0; i < rowCount; ++i) {
-            for (int j = 0; j < rowCount; ++j) {
+        for (int i = 0; i < rowsCount; ++i) {
+            for (int j = 0; j < rowsCount; ++j) {
                 resultMatrix.rows[i].setCoordinate(j, Vector.getScalarProduct(matrix1.rows[i], matrix2.getColumn(j)));
             }
         }

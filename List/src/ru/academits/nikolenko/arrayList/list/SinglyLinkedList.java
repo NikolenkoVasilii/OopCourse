@@ -1,17 +1,15 @@
-package ru.academits.nikolenko.list;
+package ru.academits.nikolenko.arrayList.list;
 
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int count;
-
-    public SinglyLinkedList() {
-    }
 
     public int getSize() {
         return count;
     }
 
     public T getFirst() {
+
         return head.getData();
     }
 

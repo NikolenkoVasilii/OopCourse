@@ -1,6 +1,6 @@
-package ru.academits.nikolenko.vector_main;
+package ru.academits.nikolenko.arrayList.vector_main;
 
-import ru.academits.nikolenko.vector.Vector;
+import ru.academits.nikolenko.arrayList.vector.Vector;
 
 public class Main {
     public static void main(String[] args) {
