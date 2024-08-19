@@ -20,7 +20,7 @@ public class Main {
         System.out.println("Текущий размер списка: " + size);
         System.out.println(name);
 
-        name.turn();
+        name.reverse();
         System.out.println(name);
 
         System.out.println("Первый элемент списка: " + name.getFirst());
@@ -49,15 +49,13 @@ public class Main {
             System.out.println("Нет такого элемента");
         }
 
-
         name.removeFirst();
         String firstData = name.removeFirst();
         System.out.println("Удаленный элемент = " + firstData);
         System.out.println(name);
 
 
-        SinglyLinkedList<String> copyName = new SinglyLinkedList<>();
-        copyName = name.getCopy();
+        SinglyLinkedList<String> copyName = name.getCopyList();
         System.out.println("Копированный список:" + copyName);
 
         name.remove(1);
@@ -72,6 +70,12 @@ public class Main {
         System.out.println(name);
         System.out.println(copyName.removeFirst());
 
-
+        SinglyLinkedList<String> names = new SinglyLinkedList<>();
+        names.addFirst("pop");
+        System.out.println(names);
+        names.add(0,"pops");
+        System.out.println(names);
+        names.add(2,"pops");
+        System.out.println(names);
     }
 }
