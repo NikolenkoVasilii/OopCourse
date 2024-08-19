@@ -73,9 +73,9 @@ public class Main {
         SinglyLinkedList<String> names = new SinglyLinkedList<>();
         names.addFirst("pop");
         System.out.println(names);
-        names.add(0,"pops");
+        names.add(0, "pops");
         System.out.println(names);
-        names.add(2,"pops");
+        names.add(2, "pops");
         System.out.println(names);
     }
 }
