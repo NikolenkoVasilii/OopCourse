@@ -140,4 +140,8 @@ public class Vector {
 
         return product;
     }
+
+    public double[] getCoordinates() {
+        return coordinates;
+    }
 }

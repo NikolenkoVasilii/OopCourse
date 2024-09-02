@@ -5,7 +5,7 @@ import java.util.*;
 public class ArrayList<E> implements List<E> {
     private E[] items;
     private int size;
-    private int capacity;
+    private int capacity = 10;
     private int modCount;
 
 
@@ -163,12 +163,12 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public ListIterator<E> listIterator() {
+    public java.util.ListIterator listIterator() {
         return null;
     }
 
     @Override
-    public ListIterator<E> listIterator(int index) {
+    public java.util.ListIterator listIterator(int index) {
         return null;
     }
 

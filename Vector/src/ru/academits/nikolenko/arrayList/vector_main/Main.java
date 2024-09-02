@@ -2,6 +2,8 @@ package ru.academits.nikolenko.arrayList.vector_main;
 
 import ru.academits.nikolenko.arrayList.vector.Vector;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
         Vector vector1 = new Vector(4);
@@ -75,5 +77,8 @@ public class Main {
 
         Vector vector14 = new Vector(vector11);
         System.out.println("Вектор14, равный вектору 11 = " + vector14);
+
+        double[] array = vector14.getCoordinates();
+        System.out.println(Arrays.toString(array));
     }
 }

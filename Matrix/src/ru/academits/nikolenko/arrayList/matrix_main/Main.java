@@ -58,7 +58,6 @@ public class Main {
         double determinant15 = matrix15.getDeterminant();
         System.out.println("Определитель матрицы 15 =" + determinant15);
 
-
         double[][] array7 = {{2, 3, 3, 5}, {3, 4, 1, 6}};
         Matrix matrix7 = new Matrix(array7);
         matrix1.add(matrix7);
