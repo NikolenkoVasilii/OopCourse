@@ -4,71 +4,70 @@ import ru.academits.nikolenko.arrayList.list.SinglyLinkedList;
 
 public class Main {
     public static void main(String[] args) {
-        SinglyLinkedList<String> name = new SinglyLinkedList<>();
+        SinglyLinkedList<String> namesList = new SinglyLinkedList<>();
 
-        name.addFirst("Alex");
+        namesList.addFirst("Alex");
 
-        name.addFirst("Mike");
+        namesList.addFirst("Mike");
 
-        name.addFirst("Nikita");
+        namesList.addFirst("Nikita");
 
-        System.out.println("Текущий размер списка: " + name.getSize());
-        System.out.println(name);
+        System.out.println("Текущий размер списка: " + namesList.getSize());
+        System.out.println(namesList);
 
-        name.add(2, "Bob");
-        int size = name.getSize();
+        namesList.add(1, "Bob");
+        int size = namesList.getSize();
         System.out.println("Текущий размер списка: " + size);
-        System.out.println(name);
+        System.out.println(namesList);
 
-        name.reverse();
-        System.out.println(name);
+        namesList.reverse();
+        System.out.println(namesList);
 
-        System.out.println("Первый элемент списка: " + name.getFirst());
+        System.out.println("Первый элемент списка: " + namesList.getFirst());
 
-        String data = name.getData(1);
-        System.out.println("Второй элемент списка: " + data);
+        String data = namesList.getData(2);
+        System.out.println("Третий элемент списка: " + data);
 
-        String oldData = name.getData(2);
-        name.setData(2, "Nikolay");
-        data = name.getData(2);
+        String oldData = namesList.getData(2);
+        namesList.setData(2, "Nikolay");
+        data = namesList.getData(2);
         System.out.println("Старое значение элемента списка: " + oldData);
         System.out.println("Третий элемент списка: " + data);
-        System.out.println(name);
+        System.out.println(namesList);
 
-        name.setData(3, "Nikolay");
-        data = name.getData(3);
+        namesList.setData(3, "Nikolay");
+        data = namesList.getData(3);
         System.out.println("Четвертый элемент списка: " + data);
-        System.out.println(name);
+        System.out.println(namesList);
 
-        name.add(1, "Pavel");
-        System.out.println(name);
+        namesList.add(1, "Pavel");
+        System.out.println(namesList);
 
-        if (name.remove("Pavel")) {
-            System.out.println(name);
+        if (namesList.remove("Pavel")) {
+            System.out.println(namesList);
         } else {
             System.out.println("Нет такого элемента");
         }
 
-        name.removeFirst();
-        String firstData = name.removeFirst();
+        namesList.removeFirst();
+        String firstData = namesList.removeFirst();
         System.out.println("Удаленный элемент = " + firstData);
-        System.out.println(name);
+        System.out.println(namesList);
 
+        SinglyLinkedList<String> copyNamesList = namesList.copy();
+        System.out.println("Копированный список: " + copyNamesList);
 
-        SinglyLinkedList<String> copyName = name.getCopyList();
-        System.out.println("Копированный список:" + copyName);
+        namesList.remove(1);
+        System.out.println("список без второго элемента: " + namesList);
 
-        name.remove(1);
-        System.out.println("список без второго элемента:" + name);
+        namesList.addFirst("Polina");
+        namesList.addFirst("Vasilii");
+        System.out.println(namesList);
 
-        name.addFirst("Polina");
-        name.addFirst("Vasilii");
-        System.out.println(name);
+        namesList.removeFirst();
 
-        name.removeFirst();
-
-        System.out.println(name);
-        System.out.println(copyName.removeFirst());
+        System.out.println(namesList);
+        System.out.println(copyNamesList.removeFirst());
 
         SinglyLinkedList<String> names = new SinglyLinkedList<>();
         names.addFirst("pop");
