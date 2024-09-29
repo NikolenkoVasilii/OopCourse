@@ -1,31 +1,36 @@
-package ru.academits.nikolenko.hashTable;
-
+package ru.academits.nikolenko.hash_table;
 
 import ru.academits.nikolenko.arrayList.ArrayList;
 
 import java.util.*;
 
-
 public class HashTable<E> implements Collection<E> {
-    private ArrayList<E>[] lists;
+    private static final int initialCapacity = 20;
+
+    private final ArrayList<E>[] lists;
     private int size;
-    private final int capacity = 20;
+
     private int modCount;
 
     public HashTable() {
-        //noinspection unchecked
-        lists = (ArrayList<E>[]) new ArrayList[capacity];
+        lists = (ArrayList<E>[]) new ArrayList[initialCapacity];
     }
 
     public HashTable(int capacity) {
-        //noinspection unchecked
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Начальная вместимость должна быть больше 0!");
+        }
+
         lists = (ArrayList<E>[]) new ArrayList[capacity];
+        modCount = 0;
+        size = 0;
     }
 
-    private int getIndexList(Object object) {
+    private int getListIndex(Object object) {
         if (object == null) {
             return 0;
         }
+
         return Math.abs(object.hashCode() % lists.length);
     }
 
@@ -41,7 +46,7 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean contains(Object object) {
-        int indexList = getIndexList(object);
+        int indexList = getListIndex(object);
         return lists[indexList] != null && lists[indexList].contains(object);
     }
 
@@ -54,7 +59,7 @@ public class HashTable<E> implements Collection<E> {
         private int visitedItemsCount;
         private int arrayIndex;
         private int listIndex;
-        private final int modCount = HashTable.this.modCount;
+        private final int modCountIterator = HashTable.this.modCount;
 
         @Override
         public boolean hasNext() {
@@ -67,7 +72,7 @@ public class HashTable<E> implements Collection<E> {
                 throw new NoSuchElementException("Коллекция закончилась");
             }
 
-            if (modCount != HashTable.this.modCount) {
+            if (modCountIterator != HashTable.this.modCount) {
                 throw new ConcurrentModificationException("Коллекция изменилась за время обхода");
             }
 
@@ -92,7 +97,7 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public Object[] toArray() {
-        Object[] result = new Object[lists.length];
+        Object[] result = new Object[size];
         int i = 0;
 
         for (Object item : lists) {
@@ -105,11 +110,14 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public <T> T[] toArray(T[] array) {
-        if (array.length < lists.length) {
-            //noinspection unchecked
+        if (array == null) {
+            throw new IllegalArgumentException("Передан пустой массив!");
+        }
+        if (array.length < size) {
             return (T[]) Arrays.copyOf(lists, lists.length);
         }
 
+        //noinspection SuspiciousSystemArraycopy
         System.arraycopy(toArray(), 0, array, 0, lists.length);
 
         if (array.length > size) {
@@ -121,7 +129,7 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean add(E item) {
-        int index = getIndexList(item);
+        int index = getListIndex(item);
 
         if (lists[index] == null) {
             lists[index] = new ArrayList<>();
@@ -136,7 +144,7 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean remove(Object object) {
-        int index = getIndexList(object);
+        int index = getListIndex(object);
 
         if (lists[index] != null && lists[index].remove(object)) {
             modCount++;
@@ -177,49 +185,65 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public boolean removeAll(Collection<?> collection) {
-        size = 0;
-        boolean mod = false;
+        if (collection == null) {
+            throw new IllegalArgumentException("This collection is null!");
+        }
 
-        for (int i = 0; i < capacity; i++) {
+        size = 0;
+        boolean isModcountChanded = false;
+
+        for (int i = 0; i < initialCapacity; i++) {
             if (lists[i] != null) {
                 if (lists[i].removeAll(collection)) {
-                    mod = true;
+                    isModcountChanded = true;
                 }
 
                 size += lists[i].size();
             }
         }
 
-        modCount += size;
-        return mod;
+        if (isModcountChanded) {
+            modCount++;
+        }
+
+        return isModcountChanded;
     }
 
     @Override
     public boolean retainAll(Collection<?> collection) {
-        size = 0;
-        boolean mod = false;
+        if (collection == null) {
+            throw new IllegalArgumentException("This collection is null!");
+        }
 
-        for (int i = 0; i < capacity; i++) {
+        size = 0;
+        boolean isModcountChanded = false;
+
+        for (int i = 0; i < initialCapacity; i++) {
             if (lists[i] != null) {
                 if (lists[i].retainAll(collection)) {
-                    mod = true;
+                    isModcountChanded = true;
                 }
 
                 size += lists[i].size();
             }
         }
 
-        modCount += size;
-        return mod;
+        if (isModcountChanded) {
+            modCount++;
+        }
+
+        return isModcountChanded;
     }
 
     @Override
     public void clear() {
-        if (size != 0) {
-            for (int i = 0; i < capacity; i++) {
-                if (lists[i] != null) {
-                    lists[i].clear();
-                }
+        if (size == 0) {
+            return;
+        }
+
+        for (ArrayList<E> list : lists) {
+            if (list != null) {
+                list.clear();
             }
         }
 
@@ -233,7 +257,7 @@ public class HashTable<E> implements Collection<E> {
         stringBuilder.append(lists[0]);
 
         for (int i = 1; i < lists.length; i++) {
-            stringBuilder.append(",").append(lists[i]);
+            stringBuilder.append(", ").append(lists[i]);
         }
 
         stringBuilder.append('}');

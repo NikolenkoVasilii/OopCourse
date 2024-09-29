@@ -312,7 +312,7 @@ public class Matrix {
             Vector row = getRow(i);
             double[] rowArray = row.getCoordinates();
 
-            if (!Arrays.equals(rowArray,rows[i].getCoordinates())) {
+            if (!Arrays.equals(rowArray, rows[i].getCoordinates())) {
                 return false;
             }
         }

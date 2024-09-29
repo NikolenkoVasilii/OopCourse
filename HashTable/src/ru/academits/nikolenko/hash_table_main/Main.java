@@ -1,7 +1,8 @@
-package ru.academits.nikolenko.hashTableMain;
+package ru.academits.nikolenko.hash_table_main;
 
-import ru.academits.nikolenko.arrayList.ArrayList;
-import ru.academits.nikolenko.hashTable.HashTable;
+import ru.academits.nikolenko.hash_table.HashTable;
+
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,11 +32,11 @@ public class Main {
         }
 
         hashTable.remove(18);
-        System.out.println("Хэщ-таблица: " + System.lineSeparator() + hashTable);
+        System.out.println("Хэш-таблица: " + System.lineSeparator() + hashTable);
         System.out.println("Список :" + System.lineSeparator() + arrayList);
 
         if (hashTable.containsAll(arrayList)) {
-            System.out.println("Хэщ таблица содержит в себе все элементы списка");
+            System.out.println("Хэш таблица содержит в себе все элементы списка");
         } else {
             System.out.println("Хэш таблица не содержит в себе все элементы списка");
         }
@@ -43,16 +44,17 @@ public class Main {
         hashTable.add(18);
         hashTable.add(19);
 
-        System.out.println("Хэщ-таблица: " + System.lineSeparator() + hashTable);
+        System.out.println("Хэш-таблица: " + System.lineSeparator() + hashTable);
         System.out.println("Список :" + System.lineSeparator() + arrayList);
+
         if (hashTable.containsAll(arrayList)) {
-            System.out.println("Хэщ таблица содержит в себе все элементы списка");
+            System.out.println("Хэш таблица содержит в себе все элементы списка");
         } else {
             System.out.println("Хэш таблица не содержит в себе все элементы списка");
         }
 
         hashTable.removeAll(arrayList);
-        System.out.println("Хэщ-таблица: " + System.lineSeparator() + hashTable);
+        System.out.println("Хэш -таблица: " + System.lineSeparator() + hashTable);
 
         hashTable.add(18);
         hashTable.retainAll(arrayList);
