@@ -1,4 +1,4 @@
-package ru.academits.nikolenko.arrayList.list;
+package ru.academits.nikolenko.array_list.list;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;

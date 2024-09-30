@@ -1,4 +1,4 @@
-package ru.academits.nikolenko.arrayList.range;
+package ru.academits.nikolenko.array_list.range;
 
 public class Range {
     private double from;

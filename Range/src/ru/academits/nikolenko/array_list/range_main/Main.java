@@ -1,6 +1,6 @@
-package ru.academits.nikolenko.arrayList.range_main;
+package ru.academits.nikolenko.array_list.range_main;
 
-import ru.academits.nikolenko.arrayList.range.Range;
+import ru.academits.nikolenko.array_list.range.Range;
 
 import java.util.Arrays;
 import java.util.Scanner;

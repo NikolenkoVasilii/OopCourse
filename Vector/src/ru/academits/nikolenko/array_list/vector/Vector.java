@@ -1,4 +1,4 @@
-package ru.academits.nikolenko.arrayList.vector;
+package ru.academits.nikolenko.array_list.vector;
 
 import java.util.Arrays;
 

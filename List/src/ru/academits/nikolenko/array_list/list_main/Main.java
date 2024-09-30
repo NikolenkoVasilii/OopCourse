@@ -1,6 +1,6 @@
-package ru.academits.nikolenko.arrayList.list_main;
+package ru.academits.nikolenko.array_list.list_main;
 
-import ru.academits.nikolenko.arrayList.list.SinglyLinkedList;
+import ru.academits.nikolenko.array_list.list.SinglyLinkedList;
 
 public class Main {
     public static void main(String[] args) {
