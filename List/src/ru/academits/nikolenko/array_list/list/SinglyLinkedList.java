@@ -54,30 +54,36 @@ public class SinglyLinkedList<E> {
     }
 
     public void add(int index, E data) {
-        size++;
-        checkIndex(index);
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Не существует индекса со значением " + index + " Допустимое значение индекса от 0 до " + size + " включительно");
+        }
+
         ListItem<E> previousItem = getItem(index - 1);
-        previousItem.setNext(new ListItem<>(data, previousItem.getNext()));
+
+        if (index == 0) {
+            addFirst(data);
+        } else {
+            previousItem.setNext(new ListItem<>(data, previousItem.getNext()));
+        }
+
+        size++;
     }
 
-
     public boolean remove(E data) {
-        checkEmpty();
+        if (size == 0) {
+            return false;
+        }
 
         if (Objects.equals(data, head.getData())) {
             removeFirst();
             return true;
         }
 
-        for (ListItem<E> item = head, previousItem = null;
+        for (ListItem<E> previousItem = head, item = previousItem.getNext();
              item != null;
              previousItem = item, item = item.getNext()) {
             if (item.getData().equals(data)) {
-                item = item.getNext();
-
-                if (previousItem != null) {
-                    previousItem.setNext(item);
-                }
+                previousItem.setNext(item.getNext());
                 size--;
                 return true;
             }
@@ -96,15 +102,21 @@ public class SinglyLinkedList<E> {
     }
 
     public void reverse() {
+        if (size == 0) {
+            return;
+        }
+
         ListItem<E> item = head;
         ListItem<E> previousItem = null;
 
-        for (ListItem<E> next = item.getNext(); next != null; previousItem = item, item = next, next = next.getNext()) {
+        while (item != null) {
+            ListItem<E> nextItem = item.getNext();
             item.setNext(previousItem);
+            previousItem = item;
+            item = nextItem;
         }
 
-        item.setNext(previousItem);
-        head = item;
+        head = previousItem;
     }
 
     @Override
@@ -148,7 +160,7 @@ public class SinglyLinkedList<E> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("По данному индексу нет элемента, допустимые границы от 0 до " + size + "включительно," +
+            throw new IndexOutOfBoundsException("По данному индексу нет элемента, допустимые границы от 0 до " + (size - 1) + " включительно," +
                     " а текущий индекс = " + index);
         }
     }

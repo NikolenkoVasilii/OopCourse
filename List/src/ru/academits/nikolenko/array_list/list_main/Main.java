@@ -15,12 +15,12 @@ public class Main {
         System.out.println("Текущий размер списка: " + namesList.getSize());
         System.out.println(namesList);
 
+        namesList.reverse();
+        System.out.println("Развернутый список: " + namesList );
+
         namesList.add(1, "Bob");
         int size = namesList.getSize();
         System.out.println("Текущий размер списка: " + size);
-        System.out.println(namesList);
-
-        namesList.reverse();
         System.out.println(namesList);
 
         System.out.println("Первый элемент списка: " + namesList.getFirst());
