@@ -1,4 +1,4 @@
-package ru.academits.nikolenko.array_list;
+package ru.academits.nikolenko;
 
 import java.util.*;
 

@@ -1,6 +1,6 @@
-package ru.academits.nikolenko.array_list.vector_main;
+package ru.academits.nikolenko.vector_main;
 
-import ru.academits.nikolenko.array_list.vector.Vector;
+import ru.academits.nikolenko.vector.Vector;
 
 import java.util.Arrays;
 

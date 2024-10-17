@@ -1,4 +1,4 @@
-package ru.academits.nikolenko.array_list.list;
+package ru.academits.nikolenko.list;
 
 class ListItem<E> {
     private E data;

@@ -1,4 +1,4 @@
-package ru.academits.nikolenko.array_list.list;
+package ru.academits.nikolenko.list;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -126,14 +126,15 @@ public class SinglyLinkedList<E> {
         }
 
         StringBuilder stringBuilder = new StringBuilder("[");
-
         ListItem<E> item = head;
-        stringBuilder.append(item.getData());
 
-        while (item.getNext() != null) {
+        while (item != null) {
+            stringBuilder.append(item.getData()).append(", ");
             item = item.getNext();
-            stringBuilder.append(", ").append(item.getData());
         }
+
+        int stringLength = stringBuilder.length();
+        stringBuilder.delete(stringLength - 2, stringLength);
 
         stringBuilder.append(']');
         return stringBuilder.toString();
@@ -149,8 +150,7 @@ public class SinglyLinkedList<E> {
         ListItem<E> copiedItem = listCopy.head;
 
         for (ListItem<E> item = head.getNext(); item != null; item = item.getNext()) {
-            E data = item.getData();
-            copiedItem.setNext(new ListItem<>(data));
+            copiedItem.setNext(new ListItem<>(item.getData()));
             copiedItem = copiedItem.getNext();
         }
 
@@ -160,8 +160,7 @@ public class SinglyLinkedList<E> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("По данному индексу нет элемента, допустимые границы от 0 до " + (size - 1) + " включительно," +
-                    " а текущий индекс = " + index);
+            throw new IndexOutOfBoundsException("По данному индексу нет элемента, допустимые границы от 0 до " + (size - 1) + " включительно,а текущий индекс = " + index);
         }
     }
 

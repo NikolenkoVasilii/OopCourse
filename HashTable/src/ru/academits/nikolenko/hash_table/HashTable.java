@@ -1,6 +1,6 @@
 package ru.academits.nikolenko.hash_table;
 
-import ru.academits.nikolenko.array_list.ArrayList;
+import ru.academits.nikolenko.ArrayList;
 
 import java.util.*;
 

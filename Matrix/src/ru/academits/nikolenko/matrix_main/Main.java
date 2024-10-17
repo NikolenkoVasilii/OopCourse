@@ -1,7 +1,7 @@
-package ru.academits.nikolenko.array_list.matrix_main;
+package ru.academits.nikolenko.matrix_main;
 
-import ru.academits.nikolenko.array_list.matrix.Matrix;
-import ru.academits.nikolenko.array_list.vector.Vector;
+import ru.academits.nikolenko.matrix.Matrix;
+import ru.academits.nikolenko.vector.Vector;
 
 public class Main {
     public static void main(String[] args) {
