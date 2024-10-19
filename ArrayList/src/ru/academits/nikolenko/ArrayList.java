@@ -22,7 +22,7 @@ public class ArrayList<E> implements List<E> {
 
     private class ArrayListIterator implements Iterator<E> {
         private int currentIndex = -1;
-        private final int initialModCount = ArrayList.this.modCount;
+        private final int initialModCount = modCount;
 
         @Override
         public boolean hasNext() {
@@ -70,12 +70,15 @@ public class ArrayList<E> implements List<E> {
 
         return oldItem;
     }
+    private void checkIndexToAdd(int index) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Индекс " + index + " некорректный. Допустимый диапазон от 0 до " + size + " включительно");
+        }
+    }
 
     @Override
     public void add(int index, E item) {
-        if (index != size) {
-            checkIndex(index);
-        }
+         checkIndexToAdd(index);
 
         if (size == capacity) {
             increaseCapacity();
@@ -210,9 +213,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(int index, Collection collection) {
-        if (index != size) {
-            checkIndex(index);
-        }
+        checkIndexToAdd(index);
 
         if (collection.isEmpty()) {
             return false;
@@ -223,9 +224,11 @@ public class ArrayList<E> implements List<E> {
 
         System.arraycopy(items, index, items, index + collectionSize, size - index);
 
+        int currentIndex = index;
+
         for (Object item : collection) {
-            items[index] = (E) item;
-            index++;
+            items[currentIndex] = (E) item;
+            currentIndex++;
         }
 
         size += collection.size();
@@ -345,16 +348,14 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int hash = 3;
-        hash = prime * hash + size;
-        hash = hash + Arrays.hashCode(items);
-        return hash;
+        trimToSize();
+
+        return Arrays.hashCode(items);
     }
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Переданный индекс выходит за пределы коллекции, введенный индекс = " + index +
+            throw new IndexOutOfBoundsException("Переданный индекс выходит за пределы коллекции, переданный индекс = " + index +
                     ". Введите индекс от 0 до " + (size - 1) + " включительно");
         }
     }

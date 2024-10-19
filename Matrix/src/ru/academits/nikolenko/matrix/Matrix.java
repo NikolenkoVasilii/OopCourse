@@ -323,8 +323,6 @@ public class Matrix {
     public int hashCode() {
         int rowsCount = getRowsCount();
 
-        int hash = 0;
-
         Vector[] rowsArray = new Vector[getRowsCount()];
 
         for (int i = 0; i <= rowsCount; i++) {
