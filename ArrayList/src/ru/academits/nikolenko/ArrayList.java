@@ -70,6 +70,7 @@ public class ArrayList<E> implements List<E> {
 
         return oldItem;
     }
+
     private void checkIndexToAdd(int index) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Индекс " + index + " некорректный. Допустимый диапазон от 0 до " + size + " включительно");
@@ -78,7 +79,7 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public void add(int index, E item) {
-         checkIndexToAdd(index);
+        checkIndexToAdd(index);
 
         if (size == capacity) {
             increaseCapacity();
@@ -149,6 +150,7 @@ public class ArrayList<E> implements List<E> {
     public java.util.ListIterator<E> listIterator(int index) {
         return null;
     }
+
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
         return null;
@@ -360,4 +362,3 @@ public class ArrayList<E> implements List<E> {
         }
     }
 }
-
