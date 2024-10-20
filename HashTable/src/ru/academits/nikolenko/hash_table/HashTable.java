@@ -1,15 +1,13 @@
 package ru.academits.nikolenko.hash_table;
 
-import ru.academits.nikolenko.ArrayList;
-
 import java.util.*;
+import java.util.ArrayList;
 
 public class HashTable<E> implements Collection<E> {
     private static final int initialCapacity = 20;
 
     private final ArrayList<E>[] lists;
     private int size;
-
     private int modCount;
 
     public HashTable() {
@@ -101,6 +99,7 @@ public class HashTable<E> implements Collection<E> {
         int i = 0;
 
         for (Object item : lists) {
+
             result[i] = item;
             i++;
         }
@@ -113,6 +112,7 @@ public class HashTable<E> implements Collection<E> {
         if (array == null) {
             throw new IllegalArgumentException("Передан пустой массив!");
         }
+        
         if (array.length < size) {
             return (T[]) Arrays.copyOf(lists, lists.length);
         }
@@ -158,7 +158,7 @@ public class HashTable<E> implements Collection<E> {
     @Override
     public boolean containsAll(Collection<?> collection) {
         if (size == 0 || collection.isEmpty()) {
-            return false;
+            throw new NullPointerException("Переданная коллекция для сравнения  пуста или размер коллекции с которой сравнивают равен 0");
         }
 
         for (Object object : collection) {
@@ -186,7 +186,7 @@ public class HashTable<E> implements Collection<E> {
     @Override
     public boolean removeAll(Collection<?> collection) {
         if (collection == null) {
-            throw new IllegalArgumentException("This collection is null!");
+            throw new IllegalArgumentException("Коллекция равна null!");
         }
 
         size = 0;
@@ -212,7 +212,7 @@ public class HashTable<E> implements Collection<E> {
     @Override
     public boolean retainAll(Collection<?> collection) {
         if (collection == null) {
-            throw new IllegalArgumentException("This collection is null!");
+            throw new IllegalArgumentException("Коллекция равна null!");
         }
 
         size = 0;
