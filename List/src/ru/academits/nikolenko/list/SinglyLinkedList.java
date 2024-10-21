@@ -41,11 +41,11 @@ public class SinglyLinkedList<E> {
         }
 
         ListItem<E> previousItem = getItem(index - 1);
-        ListItem<E> deletedItem = previousItem.getNext();
-        previousItem.setNext(deletedItem.getNext());
+        ListItem<E> removedItem = previousItem.getNext();
+        previousItem.setNext(removedItem.getNext());
         size--;
 
-        return deletedItem.getData();
+        return removedItem.getData();
     }
 
     public void addFirst(E data) {
@@ -55,14 +55,13 @@ public class SinglyLinkedList<E> {
 
     public void add(int index, E data) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Не существует индекса со значением " + index + " Допустимое значение индекса от 0 до " + size + " включительно");
+            throw new IndexOutOfBoundsException("По данному индексу нет элемента, допустимые границы от 0 до " + size + " включительно, а текущий индекс = " + index);
         }
-
-        ListItem<E> previousItem = getItem(index - 1);
 
         if (index == 0) {
             addFirst(data);
         } else {
+            ListItem<E> previousItem = getItem(index - 1);
             previousItem.setNext(new ListItem<>(data, previousItem.getNext()));
         }
 
@@ -72,6 +71,11 @@ public class SinglyLinkedList<E> {
     public boolean remove(E data) {
         if (size == 0) {
             return false;
+        }
+
+        if (data == null) {
+            throw new NullPointerException("Переданное значение равно null");
+
         }
 
         if (Objects.equals(data, head.getData())) {
@@ -98,6 +102,7 @@ public class SinglyLinkedList<E> {
         E previousItem = head.getData();
         head = head.getNext();
         size--;
+
         return previousItem;
     }
 
@@ -160,7 +165,7 @@ public class SinglyLinkedList<E> {
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("По данному индексу нет элемента, допустимые границы от 0 до " + (size - 1) + " включительно,а текущий индекс = " + index);
+            throw new IndexOutOfBoundsException("По данному индексу нет элемента, допустимые границы от 0 до " + (size - 1) + " включительно, а текущий индекс = " + index);
         }
     }
 
