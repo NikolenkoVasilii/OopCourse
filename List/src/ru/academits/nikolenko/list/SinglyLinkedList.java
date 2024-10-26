@@ -60,22 +60,18 @@ public class SinglyLinkedList<E> {
 
         if (index == 0) {
             addFirst(data);
-        } else {
-            ListItem<E> previousItem = getItem(index - 1);
-            previousItem.setNext(new ListItem<>(data, previousItem.getNext()));
+            return;
         }
 
+        ListItem<E> previousItem = getItem(index - 1);
+        previousItem.setNext(new ListItem<>(data, previousItem.getNext()));
         size++;
     }
+
 
     public boolean remove(E data) {
         if (size == 0) {
             return false;
-        }
-
-        if (data == null) {
-            throw new NullPointerException("Переданное значение равно null");
-
         }
 
         if (Objects.equals(data, head.getData())) {
@@ -88,6 +84,7 @@ public class SinglyLinkedList<E> {
              previousItem = item, item = item.getNext()) {
             if (item.getData().equals(data)) {
                 previousItem.setNext(item.getNext());
+                item.setNext(null);
                 size--;
                 return true;
             }
