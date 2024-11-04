@@ -85,8 +85,5 @@ public class Main {
         names.add(0, "null");
         System.out.println(names);
         System.out.println("Текущий размер списка: " + names.getSize());
-
-        names.remove(null);
-        System.out.println(names);
     }
 }
