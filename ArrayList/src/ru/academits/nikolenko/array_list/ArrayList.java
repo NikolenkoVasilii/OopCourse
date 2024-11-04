@@ -6,7 +6,7 @@ public class ArrayList<E> implements List<E> {
     private E[] items;
     private int size;
     private int modCount;
-    final static int initialCapacity = 10;
+    private static final int initialCapacity = 10;
 
     public ArrayList(int initialCapacity) {
         if (initialCapacity < 0) {
