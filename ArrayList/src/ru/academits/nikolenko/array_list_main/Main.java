@@ -1,7 +1,7 @@
 package ru.academits.nikolenko.array_list_main;
 
 
-import ru.academits.nikolenko.ArrayList;
+import ru.academits.nikolenko.array_list.ArrayList;
 
 public class Main {
     public static void main(String[] args) {

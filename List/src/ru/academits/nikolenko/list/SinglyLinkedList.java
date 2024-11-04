@@ -54,7 +54,7 @@ public class SinglyLinkedList<E> {
     }
 
     public void add(int index, E data) {
-        if (index < 0 || index > size) {
+        if (index < 0 || index > size ) {
             throw new IndexOutOfBoundsException("По данному индексу нет элемента, допустимые границы от 0 до " + size + " включительно, а текущий индекс = " + index);
         }
 
@@ -82,9 +82,8 @@ public class SinglyLinkedList<E> {
         for (ListItem<E> previousItem = head, item = previousItem.getNext();
              item != null;
              previousItem = item, item = item.getNext()) {
-            if (item.getData().equals(data)) {
+            if (Objects.equals(data, item.getData())) {
                 previousItem.setNext(item.getNext());
-                item.setNext(null);
                 size--;
                 return true;
             }

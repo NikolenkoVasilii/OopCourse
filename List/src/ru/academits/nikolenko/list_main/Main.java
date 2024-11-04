@@ -16,7 +16,7 @@ public class Main {
         System.out.println(namesList);
 
         namesList.reverse();
-        System.out.println("Развернутый список: " + namesList );
+        System.out.println("Развернутый список: " + namesList);
 
         namesList.add(1, "Bob");
         int size = namesList.getSize();
@@ -72,9 +72,21 @@ public class Main {
         SinglyLinkedList<String> names = new SinglyLinkedList<>();
         names.addFirst("pop");
         System.out.println(names);
+        System.out.println("Текущий размер списка: " + names.getSize());
+
         names.add(0, "pops");
         System.out.println(names);
+        System.out.println("Текущий размер списка: " + names.getSize());
+
         names.add(2, "pops");
+        System.out.println(names);
+        System.out.println("Текущий размер списка: " + names.getSize());
+
+        names.add(0, "null");
+        System.out.println(names);
+        System.out.println("Текущий размер списка: " + names.getSize());
+
+        names.remove(null);
         System.out.println(names);
     }
 }
