@@ -32,8 +32,8 @@ public class Main {
         }
 
         hashTable.remove(18);
-        System.out.println("Хэш-таблица: " + System.lineSeparator() + hashTable);
-        System.out.println("Список :" + System.lineSeparator() + arrayList);
+        System.out.println("Хэш-таблица:" + System.lineSeparator() + hashTable);
+        System.out.println("Список:" + System.lineSeparator() + arrayList);
 
         if (hashTable.containsAll(arrayList)) {
             System.out.println("Хэш таблица содержит в себе все элементы списка");
@@ -44,8 +44,8 @@ public class Main {
         hashTable.add(18);
         hashTable.add(19);
 
-        System.out.println("Хэш-таблица: " + System.lineSeparator() + hashTable);
-        System.out.println("Список :" + System.lineSeparator() + arrayList);
+        System.out.println("Хэш-таблица:" + System.lineSeparator() + hashTable);
+        System.out.println("Список:" + System.lineSeparator() + arrayList);
 
         if (hashTable.containsAll(arrayList)) {
             System.out.println("Хэш таблица содержит в себе все элементы списка");
@@ -54,7 +54,7 @@ public class Main {
         }
 
         hashTable.removeAll(arrayList);
-        System.out.println("Хэш -таблица: " + System.lineSeparator() + hashTable);
+        System.out.println("Хэш-таблица:" + System.lineSeparator() + hashTable);
 
         hashTable.add(18);
         hashTable.retainAll(arrayList);
