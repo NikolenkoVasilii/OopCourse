@@ -50,7 +50,7 @@ public class Main {
             System.out.println("Ошибка при чтении файла: " + e.getMessage());
         }
 
-        ArrayList<Integer> numbersList = new ArrayList<>(List.of(1, 2,4, 4, 5, 6, 7, 8, 9, 9, 1, 12, 13, 4, 6, 7, 3, 17, 9, 10));
+        ArrayList<Integer> numbersList = new ArrayList<>(List.of(1, 2, 4, 4, 5, 6, 7, 8, 9, 9, 1, 12, 13, 4, 6, 7, 3, 17, 9, 10));
         System.out.println("Изначальный список чисел: " + numbersList);
         deleteEvenNumbers(numbersList);
         System.out.println("Список без четных чисел: " + numbersList);
