@@ -1,10 +1,14 @@
 package ru.academits.nikolenko.lambdas;
 
 public class Person {
-    String name;
-    int age;
+    private final String name;
+    private final int age;
 
     public Person(String name, int age) {
+        if (name == null) {
+            throw new NullPointerException("имя не должно быть null");
+        }
+
         this.name = name;
         this.age = age;
     }
@@ -19,10 +23,6 @@ public class Person {
 
     @Override
     public String toString() {
-        if (name == null){
-            return "()";
-        }
-
-        return String.format("{имя: %10s, возраст: %3d}%n", name, age);
+        return String.format("{имя: %10s, возраст: %3d}", name, age);
     }
 }
