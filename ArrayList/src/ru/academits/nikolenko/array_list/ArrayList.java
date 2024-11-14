@@ -3,21 +3,22 @@ package ru.academits.nikolenko.array_list;
 import java.util.*;
 
 public class ArrayList<E> implements List<E> {
+    private static final int INITIAL_CAPACITY = 10;
+
     private E[] items;
     private int size;
     private int modCount;
-    private static final int initialCapacity = 10;
 
-    public ArrayList(int initialCapacity) {
-        if (initialCapacity < 0) {
-            throw new IllegalArgumentException("Начальная вместимость должна быть >= 0, текущая вместимость " + initialCapacity);
+    public ArrayList(int capacity) {
+        if (capacity < 0) {
+            throw new IllegalArgumentException("Начальная вместимость должна быть >= 0, текущая вместимость " + INITIAL_CAPACITY);
         }
 
-        items = (E[]) new Object[initialCapacity];
+        items = (E[]) new Object[capacity];
     }
 
     public ArrayList() {
-        items = (E[]) new Object[initialCapacity];
+        items = (E[]) new Object[INITIAL_CAPACITY];
     }
 
     private class ArrayListIterator implements Iterator<E> {
@@ -81,7 +82,7 @@ public class ArrayList<E> implements List<E> {
     public void add(int index, E item) {
         checkIndexToAdd(index);
 
-        if (size == initialCapacity) {
+        if (size == INITIAL_CAPACITY) {
             increaseCapacity();
         }
 
@@ -174,6 +175,7 @@ public class ArrayList<E> implements List<E> {
     @Override
     public <T> T[] toArray(T[] array) {
         if (array.length < size) {
+            //noinspection unchecked
             return (T[]) Arrays.copyOf(items, size, array.getClass());
         }
 
@@ -264,7 +266,7 @@ public class ArrayList<E> implements List<E> {
 
         boolean isRemoved = false;
 
-        for (int i = size; i >= 0; i--) {
+        for (int i = size - 1; i >= 0; i--) {
             if (!collection.contains(items[i])) {
                 remove(i);
                 isRemoved = true;
@@ -288,8 +290,9 @@ public class ArrayList<E> implements List<E> {
 
     private void increaseCapacity() {
         if (items.length == 0) {
-            items = (E[]) new Object[initialCapacity];
+            items = (E[]) new Object[INITIAL_CAPACITY];
         } else {
+            //noinspection unchecked
             items = Arrays.copyOf(items, items.length * 2);
         }
     }
@@ -333,6 +336,7 @@ public class ArrayList<E> implements List<E> {
             return false;
         }
 
+        @SuppressWarnings("unchecked")
         ArrayList<E> list = (ArrayList<E>) o;
 
         if (size != list.size) {
@@ -356,7 +360,7 @@ public class ArrayList<E> implements List<E> {
 
         for (int i = 0; i < size; i++) {
             if (items[i] == null) {
-                hash = prime * hash;
+                hash *= prime;
                 continue;
             }
 
