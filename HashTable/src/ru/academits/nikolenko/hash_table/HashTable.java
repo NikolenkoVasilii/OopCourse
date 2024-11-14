@@ -11,12 +11,13 @@ public class HashTable<E> implements Collection<E> {
     private int modCount;
 
     public HashTable() {
+        //noinspection unchecked
         lists = (ArrayList<E>[]) new ArrayList[INITIAL_CAPACITY];
     }
 
     public HashTable(int capacity) {
         if (capacity <= 0) {
-            throw new IllegalArgumentException("Начальная вместимость должна быть больше 0!, а переданное значение:" + capacity);
+            throw new IllegalArgumentException("Начальная вместимость должна быть больше 0, а переданное значение:" + capacity);
         }
 
         lists = (ArrayList<E>[]) new ArrayList[capacity];
@@ -95,168 +96,173 @@ public class HashTable<E> implements Collection<E> {
         Object[] result = new Object[size];
         int i = 0;
 
-        for (Object list : lists) {
-            result[i] = list;
-            i++;
+        for (ArrayList<E> list : lists) {
+            if (list != null) {
+                for (E e : list) {
+                    result[i] = list;
+                    i++;
+                }
+            }
         }
 
         return result;
     }
 
-    @Override
-    public <T> T[] toArray(T[] array) {
-        if (array == null) {
-            throw new IllegalArgumentException("Передан null");
-        }
+            @Override
+            public <T > T[]toArray(T[]array){
+                if (array == null) {
+                    throw new NullPointerException("Переданный массив - null");
+                }
 
-        if (array.length < size) {
-            return (T[]) Arrays.copyOf(toArray(), size, array.getClass());
-        }
+                if (array.length < size) {
+                    //noinspection unchecked
+                    return (T[]) Arrays.copyOf(toArray(), size, array.getClass());
+                }
 
-        //noinspection SuspiciousSystemArraycopy
-        System.arraycopy(toArray(), 0, array, 0, size);
+                //noinspection SuspiciousSystemArraycopy
+                System.arraycopy(toArray(), 0, array, 0, size);
 
-        if (array.length > size) {
-            array[size] = null;
-        }
+                if (array.length > size) {
+                    array[size] = null;
+                }
 
-        return array;
-    }
+                return array;
+            }
 
-    @Override
-    public boolean add(E item) {
-        int index = getListIndex(item);
+            @Override
+            public boolean add (E item){
+                int index = getListIndex(item);
 
-        if (lists[index] == null) {
-            lists[index] = new ArrayList<>();
-        }
+                if (lists[index] == null) {
+                    lists[index] = new ArrayList<>();
+                }
 
-        lists[index].add(item);
-        modCount++;
-        size++;
+                lists[index].add(item);
+                modCount++;
+                size++;
 
-        return true;
-    }
+                return true;
+            }
 
-    @Override
-    public boolean remove(Object object) {
-        int index = getListIndex(object);
+            @Override
+            public boolean remove (Object object){
+                int index = getListIndex(object);
 
-        if (lists[index] != null && lists[index].remove(object)) {
-            modCount++;
-            size--;
-            return true;
-        }
+                if (lists[index] != null && lists[index].remove(object)) {
+                    modCount++;
+                    size--;
+                    return true;
+                }
 
-        return false;
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> collection) {
-        for (Object object : collection) {
-            if (!contains(object)) {
                 return false;
             }
-        }
 
-        return true;
-    }
+            @Override
+            public boolean containsAll (Collection < ? > collection){
+                for (Object object : collection) {
+                    if (!contains(object)) {
+                        return false;
+                    }
+                }
 
-    @Override
-    public boolean addAll(Collection<? extends E> collection) {
-        if (collection.isEmpty()) {
-            return false;
-        }
-
-        for (E item : collection) {
-            add(item);
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> collection) {
-        if (collection == null) {
-            throw new NullPointerException("Коллекция равна null!");
-        }
-
-        size = 0;
-        boolean isModCountChanged = false;
-
-        for (ArrayList<E> list : lists) {
-            if (list == null || list.isEmpty()) {
-                continue;
+                return true;
             }
 
-            if (list.removeAll(collection)) {
-                isModCountChanged = true;
+            @Override
+            public boolean addAll (Collection < ? extends E > collection){
+                if (collection.isEmpty()) {
+                    return false;
+                }
+
+                for (E item : collection) {
+                    add(item);
+                }
+
+                return true;
             }
 
-            size += list.size();
-        }
+            @Override
+            public boolean removeAll (Collection < ? > collection){
+                if (collection == null) {
+                    throw new NullPointerException("Коллекция равна null!");
+                }
 
-        if (isModCountChanged) {
-            modCount++;
-        }
+                size = 0;
+                boolean isChanged = false;
 
-        return isModCountChanged;
-    }
+                for (ArrayList<E> list : lists) {
+                    if (list == null || list.isEmpty()) {
+                        continue;
+                    }
 
-    @Override
-    public boolean retainAll(Collection<?> collection) {
-        if (collection == null) {
-            throw new IllegalArgumentException("Коллекция равна null!");
-        }
+                    if (list.removeAll(collection)) {
+                        isChanged = true;
+                    }
 
-        size = 0;
-        boolean isModCountChanged = false;
+                    size += list.size();
+                }
 
-        for (ArrayList<E> list : lists) {
-            if (list == null || list.isEmpty()) {
-                continue;
+                if (isChanged) {
+                    modCount++;
+                }
+
+                return isChanged;
             }
 
-            if (list.retainAll(collection)) {
-                isModCountChanged = true;
+            @Override
+            public boolean retainAll (Collection < ? > collection){
+                if (collection == null) {
+                    throw new IllegalArgumentException("Коллекция равна null!");
+                }
+
+                size = 0;
+                boolean isModCountChanged = false;
+
+                for (ArrayList<E> list : lists) {
+                    if (list == null || list.isEmpty()) {
+                        continue;
+                    }
+
+                    if (list.retainAll(collection)) {
+                        isModCountChanged = true;
+                    }
+
+                    size += list.size();
+                }
+
+                if (isModCountChanged) {
+                    modCount++;
+                }
+
+                return isModCountChanged;
             }
 
-            size += list.size();
-        }
+            @Override
+            public void clear () {
+                if (size == 0) {
+                    return;
+                }
 
-        if (isModCountChanged) {
-            modCount++;
-        }
+                for (ArrayList<E> list : lists) {
+                    if (list != null) {
+                        list.clear();
+                    }
+                }
 
-        return isModCountChanged;
-    }
+                modCount++;
+                size = 0;
+            }
 
-    @Override
-    public void clear() {
-        if (size == 0) {
-            return;
-        }
+            @Override
+            public String toString () {
+                StringBuilder stringBuilder = new StringBuilder("{");
+                stringBuilder.append(lists[0]);
 
-        for (ArrayList<E> list : lists) {
-            if (list != null) {
-                list.clear();
+                for (int i = 1; i < lists.length; i++) {
+                    stringBuilder.append(", ").append(lists[i]);
+                }
+
+                stringBuilder.append('}');
+                return stringBuilder.toString();
             }
         }
-
-        modCount++;
-        size = 0;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("{");
-        stringBuilder.append(lists[0]);
-
-        for (int i = 1; i < lists.length; i++) {
-            stringBuilder.append(", ").append(lists[i]);
-        }
-
-        stringBuilder.append('}');
-        return stringBuilder.toString();
-    }
-}
