@@ -77,8 +77,5 @@ public class Main {
 
         Vector vector14 = new Vector(vector11);
         System.out.println("Вектор14, равный вектору 11 = " + vector14);
-
-        double[] array = vector14.getCoordinates();
-        System.out.println(Arrays.toString(array));
     }
 }

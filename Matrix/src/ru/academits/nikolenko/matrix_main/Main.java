@@ -84,7 +84,7 @@ public class Main {
         Matrix matrix12 = new Matrix(array9);
         System.out.println("Матрица 12 =" + System.lineSeparator() + matrix12);
         Matrix matrix13 = Matrix.getProduct(matrix9, matrix12);
-        System.out.println("Матрица 13, равная умножению матрицы 8 и матрицы 12  " + System.lineSeparator() + matrix13);
+        System.out.println("Матрица 13, равная умножению матрицы 9 и матрицы 12  " + System.lineSeparator() + matrix13);
 
         matrix13.transpose();
         System.out.println("Транспонированная матрица 13 =" + System.lineSeparator() + matrix13);
