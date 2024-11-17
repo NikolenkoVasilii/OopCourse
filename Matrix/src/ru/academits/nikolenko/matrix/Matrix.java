@@ -311,14 +311,11 @@ public class Matrix {
 
     @Override
     public int hashCode() {
-        int rowsCount = getRowsCount();
         final int prime = 17;
         int hash = 1;
-        hash = prime * hash + rowsCount;
+        hash = prime * hash + getRowsCount() + getRowsCount();
 
-        for (int i = 0; i <= rowsCount; i++) {
-            hash = prime * hash + getRow(i).hashCode();
-        }
+        hash += Arrays.hashCode(rows);
 
         return hash;
     }
