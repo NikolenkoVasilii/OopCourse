@@ -2,6 +2,8 @@ package ru.academits.nikolenko.matrix;
 
 import ru.academits.nikolenko.vector.Vector;
 
+import java.util.Arrays;
+
 public class Matrix {
     private Vector[] rows;
 
@@ -304,14 +306,7 @@ public class Matrix {
             return false;
         }
 
-        int rowsCount = getRowsCount();
-
-        for (int i = 0; i <= rowsCount; i++) {
-            if (!this.getRow(i).equals(matrix.getRow(i)))
-                return false;
-        }
-
-        return true;
+        return (Arrays.equals(matrix.rows,this.rows));
     }
 
     @Override
