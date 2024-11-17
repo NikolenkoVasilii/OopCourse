@@ -306,7 +306,7 @@ public class Matrix {
             return false;
         }
 
-        return (Arrays.equals(matrix.rows,this.rows));
+        return (Arrays.equals(matrix.rows, this.rows));
     }
 
     @Override
