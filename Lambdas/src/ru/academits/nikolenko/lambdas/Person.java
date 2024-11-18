@@ -6,7 +6,7 @@ public class Person {
 
     public Person(String name, int age) {
         if (name == null) {
-            throw new NullPointerException("имя не должно быть null");
+            throw new NullPointerException("Имя не должно быть null");
         }
 
         this.name = name;

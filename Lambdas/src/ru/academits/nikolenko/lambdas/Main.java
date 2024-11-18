@@ -34,12 +34,12 @@ public class Main {
 
         List<Person> teens = getTeens(personsList);
 
-        OptionalDouble averageTeensAge = teens.stream()
+        OptionalDouble teensAverageAge = teens.stream()
                 .mapToInt(Person::getAge)
                 .average();
 
-        if (averageTeensAge.isPresent()) {
-            System.out.printf("Средний возраст подростков: %.2f%n", averageTeensAge.getAsDouble());
+        if (teensAverageAge.isPresent()) {
+            System.out.printf("Средний возраст подростков: %.2f%n", teensAverageAge.getAsDouble());
         } else {
             System.out.println("Нет людей младше 18");
         }
@@ -50,11 +50,11 @@ public class Main {
         averageAgesByNames.forEach((name, age) -> System.out.printf("Ключ (Имя)  : %10s, Значение (Средний возраст) : %.2f%n", name, age));
         System.out.println();
 
-        List<Person> personsListMiddleAge = personsList.stream()
+        List<Person> middleAgePersonsList = personsList.stream()
                 .filter(x -> x.getAge() >= 20 && x.getAge() <= 45)
                 .sorted((p1, p2) -> p2.getAge() - p1.getAge())
                 .toList();
         System.out.println("Люди с возрастом от 20 до 45 в порядке убывания:");
-        personsListMiddleAge.forEach(System.out::println);
+        middleAgePersonsList.forEach(System.out::println);
     }
 }
