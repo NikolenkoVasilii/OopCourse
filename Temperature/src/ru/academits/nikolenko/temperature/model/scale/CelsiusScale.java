@@ -1,25 +1,24 @@
 package ru.academits.nikolenko.temperature.model.scale;
 
 public class CelsiusScale implements Scale {
-    private final String scaleName = "Цельсия";
 
     @Override
     public String getScaleName() {
-        return scaleName;
+        return "Celsius";
     }
 
     @Override
-    public double convertToCelsius(double temperature) {
-        return temperature;
+    public double convertFromCelsius(double inputTemperature) {
+        return inputTemperature;
     }
 
     @Override
-    public double convertFromCelsius(double temperature) {
-        return temperature;
+    public double convertToCelsius(double inputTemperature) {
+        return inputTemperature;
     }
 
     @Override
-    public String toString() {
-        return scaleName;
+    public boolean isInputIncorrect(double inputTemperature) {
+        return inputTemperature < -273.15;
     }
 }

@@ -1,25 +1,23 @@
 package ru.academits.nikolenko.temperature.model.scale;
 
 public class FahrenheitScale implements Scale {
-    private final String scaleName = "Фаренгейта";
-
     @Override
     public String getScaleName() {
-        return scaleName;
+        return "Fahrenheit";
     }
 
     @Override
-    public double convertToCelsius(double temperature) {
-        return (temperature * 1.8) + 32;
+    public double convertFromCelsius(double inputTemperature) {
+        return inputTemperature * 9 / 5 + 32;
     }
 
     @Override
-    public double convertFromCelsius(double temperature) {
-        return (temperature - 32) / 1.8;
+    public double convertToCelsius(double inputTemperature) {
+        return (inputTemperature - 32) * 5 / 9;
     }
 
     @Override
-    public String toString() {
-        return scaleName;
+    public boolean isInputIncorrect(double inputTemperature) {
+        return inputTemperature < -459.67;
     }
 }

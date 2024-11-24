@@ -1,25 +1,24 @@
 package ru.academits.nikolenko.temperature.model.scale;
 
 public class KelvinScale implements Scale {
-    private final String scaleName = "Кельвина";
-
     @Override
     public String getScaleName() {
-        return scaleName;
+        return "Kelvin";
     }
 
     @Override
-    public double convertToCelsius(double temperature) {
-        return temperature + 273.15;
+    public double convertFromCelsius(double inputTemperature) {
+        return inputTemperature + 273.15;
     }
 
     @Override
-    public double convertFromCelsius(double temperature) {
-        return temperature - 273.15;
+    public double convertToCelsius(double inputTemperature) {
+        return inputTemperature - 273.15;
     }
 
     @Override
-    public String toString() {
-        return scaleName;
+    public boolean isInputIncorrect(double inputTemperature) {
+        return inputTemperature < 0;
     }
+
 }
