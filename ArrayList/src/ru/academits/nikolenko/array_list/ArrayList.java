@@ -81,12 +81,8 @@ public class ArrayList<E> implements List<E> {
         int capacity = items.length;
 
         if (size == capacity) {
-            if (capacity == 0) {
-                //noinspection unchecked
-                items = (E[]) new Object[INITIAL_CAPACITY];
-            } else {
-                increaseCapacity();
-            }
+            increaseCapacity();
+
         }
 
         System.arraycopy(items, index, items, index + 1, size - index);
