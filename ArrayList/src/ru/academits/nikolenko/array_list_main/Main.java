@@ -4,98 +4,98 @@ import ru.academits.nikolenko.array_list.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<String> nameList = new ArrayList<>(15);
-        System.out.println("Текущий размер списка: " + nameList.size());
-        nameList.addFirst("Alex");
-        System.out.println(nameList);
+        ArrayList<String> namesList = new ArrayList<>(15);
+        System.out.println("Текущий размер списка: " + namesList.size());
+        namesList.addFirst("Alex");
+        System.out.println(namesList);
 
-        nameList.addFirst("Mike");
-        System.out.println(nameList);
+        namesList.addFirst("Mike");
+        System.out.println(namesList);
 
-        nameList.addFirst("Nikita");
-        System.out.println(nameList);
+        namesList.addFirst("Nikita");
+        System.out.println(namesList);
 
-        System.out.println("Текущий размер списка: " + nameList.size());
-        System.out.println(nameList);
+        System.out.println("Текущий размер списка: " + namesList.size());
+        System.out.println(namesList);
 
-        nameList.add(2, "Bob");
-        int size = nameList.size();
+        namesList.add(2, "Bob");
+        int size = namesList.size();
         System.out.println("Текущий размер списка: " + size);
-        System.out.println(nameList);
+        System.out.println(namesList);
 
-        System.out.println("Первый элемент списка: " + nameList.getFirst());
+        System.out.println("Первый элемент списка: " + namesList.getFirst());
 
-        String data = nameList.get(1);
+        String data = namesList.get(1);
         System.out.println("Второй элемент списка: " + data);
 
-        System.out.println("Замененный элемент списка: " + nameList.set(2, "Antoshka"));
-        System.out.println(nameList);
+        System.out.println("Замененный элемент списка: " + namesList.set(2, "Antoshka"));
+        System.out.println(namesList);
 
-        nameList.add(1, "Pavel");
-        System.out.println(nameList);
+        namesList.add(1, "Pavel");
+        System.out.println(namesList);
 
-        System.out.println("Текущий размер списка: " + nameList.size());
-        nameList.addLast("Agent");
-        System.out.println(nameList);
+        System.out.println("Текущий размер списка: " + namesList.size());
+        namesList.addLast("Agent");
+        System.out.println(namesList);
 
-        System.out.println("Удаленный элемент списка: " + nameList.remove(3));
-        System.out.println(nameList);
+        System.out.println("Удаленный элемент списка: " + namesList.remove(3));
+        System.out.println(namesList);
 
-        ArrayList<String> nameListForAddition = new ArrayList<>(15);
+        ArrayList<String> namesListForAddition = new ArrayList<>(15);
 
-        nameListForAddition.addFirst("Alex");
-        nameListForAddition.addFirst("Mike");
-        nameListForAddition.addFirst("Nikita");
-        System.out.println(nameListForAddition);
+        namesListForAddition.addFirst("Alex");
+        namesListForAddition.addFirst("Mike");
+        namesListForAddition.addFirst("Nikita");
+        System.out.println(namesListForAddition);
 
-        nameList.addAll(nameListForAddition);
-        System.out.println(nameList);
+        namesList.addAll(namesListForAddition);
+        System.out.println(namesList);
 
-        nameList.addAll(0, nameListForAddition);
-        System.out.println(nameList);
+        namesList.addAll(0, namesListForAddition);
+        System.out.println(namesList);
 
-        nameList.addLast("Nikita");
-        System.out.println(nameList);
+        namesList.addLast("Nikita");
+        System.out.println(namesList);
 
-        if (nameList.remove("Nikita")) {
-            System.out.println(nameList);
+        if (namesList.remove("Nikita")) {
+            System.out.println(namesList);
         } else {
             System.out.println("Не существовала элемента Nikita");
         }
 
-        ArrayList<String> nameListForRemoving = new ArrayList<>(15);
-        nameListForRemoving.addFirst("Mike");
-        nameListForRemoving.addFirst("Pavel");
-        nameListForRemoving.addFirst("Evgenii");
-        nameListForRemoving.addFirst("Evgenii");
-        System.out.println(nameListForRemoving);
+        ArrayList<String> namesListForRemoving = new ArrayList<>(15);
+        namesListForRemoving.addFirst("Mike");
+        namesListForRemoving.addFirst("Pavel");
+        namesListForRemoving.addFirst("Evgenii");
+        namesListForRemoving.addFirst("Evgenii");
+        System.out.println(namesListForRemoving);
 
-        nameList.removeAll(nameListForRemoving);
-        System.out.println(nameList);
+        namesList.removeAll(namesListForRemoving);
+        System.out.println(namesList);
 
-        System.out.println(nameListForRemoving.indexOf("Pavel"));
-        System.out.println(nameListForRemoving.lastIndexOf("Evgenii"));
+        System.out.println(namesListForRemoving.indexOf("Pavel"));
+        System.out.println(namesListForRemoving.lastIndexOf("Evgenii"));
 
         ArrayList<String> names = new ArrayList<>();
         names.add("Alisa");
         names.add("Mira");
         System.out.println(names);
-        nameList.addAll(names);
-        System.out.println(nameList);
+        namesList.addAll(names);
+        System.out.println(namesList);
 
-        if (nameList.containsAll(names)) {
-            System.out.println("Все элементы коллекции names содержатся в коллекции nameList");
+        if (namesList.containsAll(names)) {
+            System.out.println("Все элементы коллекции names содержатся в коллекции namesList");
         } else {
-            System.out.println("Не все элементы коллекции names содержатся в коллекции nameList");
+            System.out.println("Не все элементы коллекции names содержатся в коллекции namesList");
         }
 
-        if (names.containsAll(nameList)) {
-            System.out.println("Все элементы коллекции names содержатся в коллекции nameList");
+        if (names.containsAll(namesList)) {
+            System.out.println("Все элементы коллекции names содержатся в коллекции namesList");
         } else {
-            System.out.println("Не все элементы коллекции names содержатся в коллекции nameList");
+            System.out.println("Не все элементы коллекции names содержатся в коллекции namesList");
         }
 
-        nameList.retainAll(names);
-        System.out.println(nameList);
+        namesList.retainAll(names);
+        System.out.println(namesList);
     }
 }

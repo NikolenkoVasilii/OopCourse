@@ -14,10 +14,12 @@ public class ArrayList<E> implements List<E> {
             throw new IllegalArgumentException("Начальная вместимость должна быть >= 0, текущая вместимость " + INITIAL_CAPACITY);
         }
 
+        //noinspection unchecked
         items = (E[]) new Object[capacity];
     }
 
     public ArrayList() {
+        //noinspection unchecked
         items = (E[]) new Object[INITIAL_CAPACITY];
     }
 
@@ -72,18 +74,19 @@ public class ArrayList<E> implements List<E> {
         return oldItem;
     }
 
-    private void checkIndexToAdd(int index) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Индекс " + index + " некорректный. Допустимый диапазон от 0 до " + size + " включительно");
-        }
-    }
-
     @Override
     public void add(int index, E item) {
         checkIndexToAdd(index);
 
-        if (size == INITIAL_CAPACITY) {
-            increaseCapacity();
+        int capacity = items.length;
+
+        if (size == capacity) {
+            if (capacity == 0) {
+                //noinspection unchecked
+                items = (E[]) new Object[INITIAL_CAPACITY];
+            } else {
+                increaseCapacity();
+            }
         }
 
         System.arraycopy(items, index, items, index + 1, size - index);
@@ -291,9 +294,9 @@ public class ArrayList<E> implements List<E> {
 
     private void increaseCapacity() {
         if (items.length == 0) {
+            //noinspection unchecked
             items = (E[]) new Object[INITIAL_CAPACITY];
         } else {
-            //noinspection unchecked
             items = Arrays.copyOf(items, items.length * 2);
         }
     }
@@ -375,6 +378,12 @@ public class ArrayList<E> implements List<E> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Переданный индекс выходит за пределы коллекции, переданный индекс = " + index +
                     ". Индекс должен быть от 0 до " + (size - 1) + " включительно");
+        }
+    }
+
+    private void checkIndexToAdd(int index) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Индекс " + index + " некорректный. Допустимый диапазон от 0 до " + size + " включительно");
         }
     }
 }
