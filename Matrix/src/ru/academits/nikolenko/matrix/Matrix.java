@@ -66,16 +66,16 @@ public class Matrix {
         }
 
         rows = new Vector[rowsCount];
-        int maxLength = 0;
+        int maxSize = 0;
 
         for (Vector vector : vectors) {
-            if (vector.getSize() > maxLength) {
-                maxLength = vector.getSize();
+            if (vector.getSize() > maxSize) {
+                maxSize = vector.getSize();
             }
         }
 
         for (int i = 0; i < rowsCount; ++i) {
-            rows[i] = new Vector(maxLength);
+            rows[i] = new Vector(maxSize);
             rows[i].add(vectors[i]);
         }
     }
@@ -168,13 +168,13 @@ public class Matrix {
     }
 
     private double getMinor(int removedRowIndex) {
-        int rowsCount = this.getRowsCount() - 1;
+        int rowsCount = getRowsCount() - 1;
         Matrix result = new Matrix(rowsCount, rowsCount);
 
         for (int rowIndex = 0, checkedRowIndex = 0; rowIndex <= rowsCount; rowIndex++) {
             for (int columnIndex = 0, checkedColumnIndex = 0; columnIndex <= rowsCount; columnIndex++) {
                 if (rowIndex != removedRowIndex && columnIndex != 0) {
-                    result.rows[checkedRowIndex].setCoordinate(checkedColumnIndex, this.rows[columnIndex].getCoordinate(columnIndex));
+                    result.rows[checkedRowIndex].setCoordinate(checkedColumnIndex, rows[columnIndex].getCoordinate(columnIndex));
                     checkedColumnIndex++;
 
                     if (checkedColumnIndex == rowsCount) {
@@ -310,9 +310,9 @@ public class Matrix {
     public int hashCode() {
         final int prime = 17;
         int hash = 1;
-        hash = prime * hash + getColumnsCount();
+        hash = prime * hash ;
 
-        hash += Arrays.hashCode(rows);
+        hash = hash + Arrays.hashCode(rows);
 
         return hash;
     }
