@@ -179,6 +179,7 @@ public class ArrayList<E> implements List<E> {
             return (T[]) Arrays.copyOf(items, size, array.getClass());
         }
 
+
         //noinspection SuspiciousSystemArraycopy
         System.arraycopy(items, 0, array, 0, size);
 

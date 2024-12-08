@@ -39,22 +39,22 @@ public class Matrix {
             throw new IllegalArgumentException("Входной массив не может быть пустым!");
         }
 
-        int maxLength = 0;
+        int maxSize = 0;
 
         for (double[] row : array) {
-            if (row.length > maxLength) {
-                maxLength = row.length;
+            if (row.length > maxSize) {
+                maxSize = row.length;
             }
         }
 
-        if (maxLength == 0) {
+        if (maxSize == 0) {
             throw new IllegalArgumentException("Длина хотя бы одного элемента массива должна быть больше нуля");
         }
 
         rows = new Vector[rowsCount];
 
         for (int i = 0; i < rowsCount; ++i) {
-            rows[i] = new Vector(maxLength, array[i]);
+            rows[i] = new Vector(maxSize, array[i]);
         }
     }
 
@@ -128,13 +128,13 @@ public class Matrix {
     }
 
     public void transpose() {
-        Vector[] vectorsArray = new Vector[getColumnsCount()];
+        Vector[] newRows = new Vector[getColumnsCount()];
 
         for (int i = 0; i < getColumnsCount(); i++) {
-            vectorsArray[i] = getColumn(i);
+            newRows[i] = getColumn(i);
         }
 
-        rows = vectorsArray;
+        rows = newRows;
     }
 
     public void multiplyByScalar(double scalar) {
@@ -161,20 +161,20 @@ public class Matrix {
         double determinant = 0;
 
         for (int i = 0; i < rowsCount; i++) {
-            determinant += Math.pow(-1, i) * rows[i].getCoordinate(0) * getMinor(this, i);
+            determinant += Math.pow(-1, i) * rows[i].getCoordinate(0) * getMinor(i);
         }
 
         return determinant;
     }
 
-    private static double getMinor(Matrix matrix, int removedRowIndex) {
-        int rowsCount = matrix.getRowsCount() - 1;
+    private double getMinor(int removedRowIndex) {
+        int rowsCount = this.getRowsCount() - 1;
         Matrix result = new Matrix(rowsCount, rowsCount);
 
         for (int rowIndex = 0, checkedRowIndex = 0; rowIndex <= rowsCount; rowIndex++) {
             for (int columnIndex = 0, checkedColumnIndex = 0; columnIndex <= rowsCount; columnIndex++) {
                 if (rowIndex != removedRowIndex && columnIndex != 0) {
-                    result.rows[checkedRowIndex].setCoordinate(checkedColumnIndex, matrix.rows[columnIndex].getCoordinate(columnIndex));
+                    result.rows[checkedRowIndex].setCoordinate(checkedColumnIndex, this.rows[columnIndex].getCoordinate(columnIndex));
                     checkedColumnIndex++;
 
                     if (checkedColumnIndex == rowsCount) {
@@ -193,13 +193,13 @@ public class Matrix {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append('{');
 
-        int rowsCountForAppend = getRowsCount() - 1;
+        int lastRowIndex = getRowsCount() - 1;
 
-        for (int i = 0; i < rowsCountForAppend; i++) {
+        for (int i = 0; i < lastRowIndex; i++) {
             stringBuilder.append(rows[i]).append(", ");
         }
 
-        stringBuilder.append(rows[rowsCountForAppend]).append('}');
+        stringBuilder.append(rows[lastRowIndex]).append('}');
         return stringBuilder.toString();
     }
 
@@ -241,6 +241,7 @@ public class Matrix {
         }
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private static boolean areSizesEqual(Matrix matrix1, Matrix matrix2) {
         return matrix1.getRowsCount() == matrix2.getRowsCount() && matrix1.getColumnsCount() == matrix2.getColumnsCount();
     }
@@ -298,22 +299,18 @@ public class Matrix {
 
         Matrix matrix = (Matrix) o;
 
-        if (rows.length != matrix.rows.length) {
-            return false;
-        }
-
         if (getColumnsCount() != matrix.getColumnsCount()) {
             return false;
         }
 
-        return (Arrays.equals(matrix.rows, this.rows));
+        return Arrays.equals(matrix.rows, rows);
     }
 
     @Override
     public int hashCode() {
         final int prime = 17;
         int hash = 1;
-        hash = prime * hash + getRowsCount() + getRowsCount();
+        hash = prime * hash + getColumnsCount();
 
         hash += Arrays.hashCode(rows);
 
