@@ -17,7 +17,7 @@ public class HashTable<E> implements Collection<E> {
 
     public HashTable(int capacity) {
         if (capacity <= 0) {
-            throw new IllegalArgumentException("Начальная вместимость должна быть больше 0, а переданное значение: " + capacity);
+            throw new IllegalArgumentException("Вместимость должна быть больше 0, а переданное значение: " + capacity);
         }
 
         //noinspection unchecked
@@ -217,7 +217,7 @@ public class HashTable<E> implements Collection<E> {
         }
 
         size = 0;
-        boolean isModCountChanged = false;
+        boolean isChanged = false;
 
         for (ArrayList<E> list : lists) {
             if (list == null || list.isEmpty()) {
@@ -225,17 +225,17 @@ public class HashTable<E> implements Collection<E> {
             }
 
             if (list.retainAll(collection)) {
-                isModCountChanged = true;
+                isChanged = true;
             }
 
             size += list.size();
         }
 
-        if (isModCountChanged) {
+        if (isChanged) {
             modCount++;
         }
 
-        return isModCountChanged;
+        return isChanged;
     }
 
     @Override
