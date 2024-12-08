@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.ArrayList;
 
 public class HashTable<E> implements Collection<E> {
-    private static final int INITIAL_CAPACITY = 20;
+    private static final int DEFAULT_CAPACITY = 20;
 
     private final ArrayList<E>[] lists;
     private int size;
@@ -12,14 +12,15 @@ public class HashTable<E> implements Collection<E> {
 
     public HashTable() {
         //noinspection unchecked
-        lists = (ArrayList<E>[]) new ArrayList[INITIAL_CAPACITY];
+        lists = (ArrayList<E>[]) new ArrayList[DEFAULT_CAPACITY];
     }
 
     public HashTable(int capacity) {
         if (capacity <= 0) {
-            throw new IllegalArgumentException("Начальная вместимость должна быть больше 0, а переданное значение:" + capacity);
+            throw new IllegalArgumentException("Начальная вместимость должна быть больше 0, а переданное значение: " + capacity);
         }
 
+        //noinspection unchecked
         lists = (ArrayList<E>[]) new ArrayList[capacity];
     }
 
@@ -99,7 +100,7 @@ public class HashTable<E> implements Collection<E> {
         for (ArrayList<E> list : lists) {
             if (list != null) {
                 for (E e : list) {
-                    result[i] = list;
+                    result[i] = e;
                     i++;
                 }
             }
@@ -108,161 +109,161 @@ public class HashTable<E> implements Collection<E> {
         return result;
     }
 
-            @Override
-            public <T > T[]toArray(T[]array){
-                if (array == null) {
-                    throw new NullPointerException("Переданный массив - null");
-                }
+    @Override
+    public <T> T[] toArray(T[] array) {
+        if (array == null) {
+            throw new NullPointerException("Переданный массив - null");
+        }
 
-                if (array.length < size) {
-                    //noinspection unchecked
-                    return (T[]) Arrays.copyOf(toArray(), size, array.getClass());
-                }
+        if (array.length < size) {
+            //noinspection unchecked
+            return (T[]) Arrays.copyOf(toArray(), size, array.getClass());
+        }
 
-                //noinspection SuspiciousSystemArraycopy
-                System.arraycopy(toArray(), 0, array, 0, size);
+        //noinspection SuspiciousSystemArraycopy
+        System.arraycopy(toArray(), 0, array, 0, size);
 
-                if (array.length > size) {
-                    array[size] = null;
-                }
+        if (array.length > size) {
+            array[size] = null;
+        }
 
-                return array;
-            }
+        return array;
+    }
 
-            @Override
-            public boolean add (E item){
-                int index = getListIndex(item);
+    @Override
+    public boolean add(E item) {
+        int index = getListIndex(item);
 
-                if (lists[index] == null) {
-                    lists[index] = new ArrayList<>();
-                }
+        if (lists[index] == null) {
+            lists[index] = new ArrayList<>();
+        }
 
-                lists[index].add(item);
-                modCount++;
-                size++;
+        lists[index].add(item);
+        modCount++;
+        size++;
 
-                return true;
-            }
+        return true;
+    }
 
-            @Override
-            public boolean remove (Object object){
-                int index = getListIndex(object);
+    @Override
+    public boolean remove(Object object) {
+        int index = getListIndex(object);
 
-                if (lists[index] != null && lists[index].remove(object)) {
-                    modCount++;
-                    size--;
-                    return true;
-                }
+        if (lists[index] != null && lists[index].remove(object)) {
+            modCount++;
+            size--;
+            return true;
+        }
 
+        return false;
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> collection) {
+        for (Object object : collection) {
+            if (!contains(object)) {
                 return false;
             }
+        }
 
-            @Override
-            public boolean containsAll (Collection < ? > collection){
-                for (Object object : collection) {
-                    if (!contains(object)) {
-                        return false;
-                    }
-                }
+        return true;
+    }
 
-                return true;
+    @Override
+    public boolean addAll(Collection<? extends E> collection) {
+        if (collection.isEmpty()) {
+            return false;
+        }
+
+        for (E item : collection) {
+            add(item);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> collection) {
+        if (collection == null) {
+            throw new NullPointerException("Коллекция равна null!");
+        }
+
+        size = 0;
+        boolean isChanged = false;
+
+        for (ArrayList<E> list : lists) {
+            if (list == null || list.isEmpty()) {
+                continue;
             }
 
-            @Override
-            public boolean addAll (Collection < ? extends E > collection){
-                if (collection.isEmpty()) {
-                    return false;
-                }
-
-                for (E item : collection) {
-                    add(item);
-                }
-
-                return true;
+            if (list.removeAll(collection)) {
+                isChanged = true;
             }
 
-            @Override
-            public boolean removeAll (Collection < ? > collection){
-                if (collection == null) {
-                    throw new NullPointerException("Коллекция равна null!");
-                }
+            size += list.size();
+        }
 
-                size = 0;
-                boolean isChanged = false;
+        if (isChanged) {
+            modCount++;
+        }
 
-                for (ArrayList<E> list : lists) {
-                    if (list == null || list.isEmpty()) {
-                        continue;
-                    }
+        return isChanged;
+    }
 
-                    if (list.removeAll(collection)) {
-                        isChanged = true;
-                    }
+    @Override
+    public boolean retainAll(Collection<?> collection) {
+        if (collection == null) {
+            throw new IllegalArgumentException("Коллекция равна null!");
+        }
 
-                    size += list.size();
-                }
+        size = 0;
+        boolean isModCountChanged = false;
 
-                if (isChanged) {
-                    modCount++;
-                }
-
-                return isChanged;
+        for (ArrayList<E> list : lists) {
+            if (list == null || list.isEmpty()) {
+                continue;
             }
 
-            @Override
-            public boolean retainAll (Collection < ? > collection){
-                if (collection == null) {
-                    throw new IllegalArgumentException("Коллекция равна null!");
-                }
-
-                size = 0;
-                boolean isModCountChanged = false;
-
-                for (ArrayList<E> list : lists) {
-                    if (list == null || list.isEmpty()) {
-                        continue;
-                    }
-
-                    if (list.retainAll(collection)) {
-                        isModCountChanged = true;
-                    }
-
-                    size += list.size();
-                }
-
-                if (isModCountChanged) {
-                    modCount++;
-                }
-
-                return isModCountChanged;
+            if (list.retainAll(collection)) {
+                isModCountChanged = true;
             }
 
-            @Override
-            public void clear () {
-                if (size == 0) {
-                    return;
-                }
+            size += list.size();
+        }
 
-                for (ArrayList<E> list : lists) {
-                    if (list != null) {
-                        list.clear();
-                    }
-                }
+        if (isModCountChanged) {
+            modCount++;
+        }
 
-                modCount++;
-                size = 0;
-            }
+        return isModCountChanged;
+    }
 
-            @Override
-            public String toString () {
-                StringBuilder stringBuilder = new StringBuilder("{");
-                stringBuilder.append(lists[0]);
+    @Override
+    public void clear() {
+        if (size == 0) {
+            return;
+        }
 
-                for (int i = 1; i < lists.length; i++) {
-                    stringBuilder.append(", ").append(lists[i]);
-                }
-
-                stringBuilder.append('}');
-                return stringBuilder.toString();
+        for (ArrayList<E> list : lists) {
+            if (list != null) {
+                list.clear();
             }
         }
+
+        modCount++;
+        size = 0;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder("{");
+        stringBuilder.append(lists[0]);
+
+        for (int i = 1; i < lists.length; i++) {
+            stringBuilder.append(", ").append(lists[i]);
+        }
+
+        stringBuilder.append('}');
+        return stringBuilder.toString();
+    }
+}

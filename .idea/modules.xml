@@ -12,6 +12,7 @@
       <module fileurl="file://$PROJECT_DIR$/TreeNode/TreeNode.iml" filepath="$PROJECT_DIR$/TreeNode/TreeNode.iml" />
       <module fileurl="file://$PROJECT_DIR$/Vector/Vector.iml" filepath="$PROJECT_DIR$/Vector/Vector.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lambdas/Lambdas.iml" filepath="$PROJECT_DIR$/OopCourse/Lambdas/Lambdas.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HashTable/HashTable.iml" filepath="$PROJECT_DIR$/OopCourse/HashTable/HashTable.iml" />
     </modules>
   </component>
 </project>
