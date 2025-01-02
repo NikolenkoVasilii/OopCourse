@@ -144,37 +144,37 @@ public class Matrix {
     }
 
     public double getDeterminant() {
-        int rowsCount = getRowsCount();
+        int rowCount = getRowsCount();
 
-        if (rowsCount != getColumnsCount()) {
-            throw new IllegalStateException("Определитель можно получить только из квадратной матрицы, сейчас количество строк матрицы: " + rowsCount + ", а количество столбцов: " + getColumnsCount());
+        if (rowCount != getColumnsCount()) {
+            throw new IllegalArgumentException("Определитель можно получить только из квадратной матрицы");
         }
 
-        if (rowsCount == 1) {
+        if (rowCount == 1) {
             return rows[0].getCoordinate(0);
         }
 
-        if (rowsCount == 2) {
+        if (rowCount == 2) {
             return rows[0].getCoordinate(0) * rows[1].getCoordinate(1) - rows[0].getCoordinate(1) * rows[1].getCoordinate(0);
         }
 
         double determinant = 0;
 
-        for (int i = 0; i < rowsCount; i++) {
-            determinant += Math.pow(-1, i) * rows[i].getCoordinate(0) * getMinor(i);
+        for (int i = 0; i < rowCount; i++) {
+            determinant += Math.pow(-1, i) * rows[i].getCoordinate(0) * getMinor( i);
         }
 
         return determinant;
     }
 
-    private double getMinor(int removedRowIndex) {
+    public double getMinor(int removedRowIndex) {
         int rowsCount = getRowsCount() - 1;
         Matrix result = new Matrix(rowsCount, rowsCount);
 
         for (int rowIndex = 0, checkedRowIndex = 0; rowIndex <= rowsCount; rowIndex++) {
             for (int columnIndex = 0, checkedColumnIndex = 0; columnIndex <= rowsCount; columnIndex++) {
                 if (rowIndex != removedRowIndex && columnIndex != 0) {
-                    result.rows[checkedRowIndex].setCoordinate(checkedColumnIndex, rows[columnIndex].getCoordinate(columnIndex));
+                    result.rows[checkedRowIndex].setCoordinate(checkedColumnIndex, this.rows[columnIndex].getCoordinate(columnIndex));
                     checkedColumnIndex++;
 
                     if (checkedColumnIndex == rowsCount) {
@@ -187,6 +187,8 @@ public class Matrix {
 
         return result.getDeterminant();
     }
+
+
 
     @Override
     public String toString() {
@@ -310,9 +312,8 @@ public class Matrix {
     public int hashCode() {
         final int prime = 17;
         int hash = 1;
-        hash = prime * hash ;
 
-        hash = hash + Arrays.hashCode(rows);
+        hash = prime * hash + Arrays.hashCode(rows);
 
         return hash;
     }

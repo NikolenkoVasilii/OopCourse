@@ -48,7 +48,7 @@ public class Main {
         double determinant5 = matrix5.getDeterminant();
         System.out.println("определитель матрицы 5 =" + determinant5);
 
-        double[][] array6 = {{2, 3, 3}, {3, 4, 1}, {3, 3, 3}};
+        double[][] array6 = {{5, 7, 1}, {-4, 1, 0}, {2, 0, 3}};
         Matrix matrix6 = new Matrix(array6);
         double determinant6 = matrix6.getDeterminant();
         System.out.println("определитель матрицы 6 =" + determinant6);
@@ -96,5 +96,11 @@ public class Main {
 
         Vector vector12 = matrix14.multiplyByVector(vector11);
         System.out.println("Результат умножения матрицы14 на вектор12 =" + vector12);
+
+        double[][] array111 = {{5, 7, 1}, {-4, 1, 0}, {2, 0, 3}};
+
+        Matrix matrix111 = new Matrix(array111);
+        double determinant11 = matrix111.getDeterminant();
+        System.out.println("определитель матрицы 111 =" + determinant11);
     }
 }
