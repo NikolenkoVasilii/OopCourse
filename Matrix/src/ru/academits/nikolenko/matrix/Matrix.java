@@ -39,22 +39,22 @@ public class Matrix {
             throw new IllegalArgumentException("Входной массив не может быть пустым!");
         }
 
-        int maxSize = 0;
+        int maxLength = 0;
 
         for (double[] row : array) {
-            if (row.length > maxSize) {
-                maxSize = row.length;
+            if (row.length > maxLength) {
+                maxLength = row.length;
             }
         }
 
-        if (maxSize == 0) {
+        if (maxLength == 0) {
             throw new IllegalArgumentException("Длина хотя бы одного элемента массива должна быть больше нуля");
         }
 
         rows = new Vector[rowsCount];
 
         for (int i = 0; i < rowsCount; ++i) {
-            rows[i] = new Vector(maxSize, array[i]);
+            rows[i] = new Vector(maxLength, array[i]);
         }
     }
 
@@ -66,16 +66,16 @@ public class Matrix {
         }
 
         rows = new Vector[rowsCount];
-        int maxSize = 0;
+        int maxLength = 0;
 
         for (Vector vector : vectors) {
-            if (vector.getSize() > maxSize) {
-                maxSize = vector.getSize();
+            if (vector.getSize() > maxLength) {
+                maxLength = vector.getSize();
             }
         }
 
         for (int i = 0; i < rowsCount; ++i) {
-            rows[i] = new Vector(maxSize);
+            rows[i] = new Vector(maxLength);
             rows[i].add(vectors[i]);
         }
     }
@@ -128,13 +128,13 @@ public class Matrix {
     }
 
     public void transpose() {
-        Vector[] newRows = new Vector[getColumnsCount()];
+        Vector[] vectorsArray = new Vector[getColumnsCount()];
 
         for (int i = 0; i < getColumnsCount(); i++) {
-            newRows[i] = getColumn(i);
+            vectorsArray[i] = getColumn(i);
         }
 
-        rows = newRows;
+        rows = vectorsArray;
     }
 
     public void multiplyByScalar(double scalar) {
@@ -161,20 +161,20 @@ public class Matrix {
         double determinant = 0;
 
         for (int i = 0; i < rowCount; i++) {
-            determinant += Math.pow(-1, i) * rows[i].getCoordinate(0) * getMinor( i);
+            determinant += Math.pow(-1, i) * rows[i].getCoordinate(0) * getMinor(i);
         }
 
         return determinant;
     }
 
-    public double getMinor(int removedRowIndex) {
+    private double getMinor(int removedRowIndex) {
         int rowsCount = getRowsCount() - 1;
         Matrix result = new Matrix(rowsCount, rowsCount);
 
         for (int rowIndex = 0, checkedRowIndex = 0; rowIndex <= rowsCount; rowIndex++) {
             for (int columnIndex = 0, checkedColumnIndex = 0; columnIndex <= rowsCount; columnIndex++) {
                 if (rowIndex != removedRowIndex && columnIndex != 0) {
-                    result.rows[checkedRowIndex].setCoordinate(checkedColumnIndex, this.rows[columnIndex].getCoordinate(columnIndex));
+                    result.rows[checkedRowIndex].setCoordinate(checkedColumnIndex, rows[rowIndex].getCoordinate(columnIndex));
                     checkedColumnIndex++;
 
                     if (checkedColumnIndex == rowsCount) {
@@ -189,19 +189,18 @@ public class Matrix {
     }
 
 
-
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append('{');
 
-        int lastRowIndex = getRowsCount() - 1;
+        int rowsCountForAppend = getRowsCount() - 1;
 
-        for (int i = 0; i < lastRowIndex; i++) {
+        for (int i = 0; i < rowsCountForAppend; i++) {
             stringBuilder.append(rows[i]).append(", ");
         }
 
-        stringBuilder.append(rows[lastRowIndex]).append('}');
+        stringBuilder.append(rows[rowsCountForAppend]).append('}');
         return stringBuilder.toString();
     }
 
@@ -243,7 +242,6 @@ public class Matrix {
         }
     }
 
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private static boolean areSizesEqual(Matrix matrix1, Matrix matrix2) {
         return matrix1.getRowsCount() == matrix2.getRowsCount() && matrix1.getColumnsCount() == matrix2.getColumnsCount();
     }
