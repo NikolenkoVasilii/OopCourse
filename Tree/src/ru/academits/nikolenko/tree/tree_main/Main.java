@@ -67,6 +67,8 @@ public class Main {
         integerBinaryTree.add(6);
         integerBinaryTree.add(7);
 
+        System.out.println(integerBinaryTree);
+
 
         System.out.println("Размер дерева интов: " + integerBinaryTree.getSize() + System.lineSeparator());
         System.out.println();
@@ -91,7 +93,7 @@ public class Main {
             System.out.printf("Значение [ %s ] было удалено из дерева.%n", y);
             System.out.printf("Размер дерева интов после удаления элемента y [ %s ] is : %s%n", y, integerBinaryTree.getSize());
         } else {
-            System.out.printf("Дерево интов не содеожит элемента y [ %d ].", y);
+            System.out.printf("Дерево интов не содержит элемента y [ %d ].", y);
         }
         System.out.println();
 

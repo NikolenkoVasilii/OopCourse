@@ -1,6 +1,5 @@
 package ru.academits.nikolenko.tree.tree;
 
-
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -17,6 +16,7 @@ public class BinaryTree<E> {
         comparator = createComparator();
     }
 
+    @SuppressWarnings("unchecked")
     private Comparator<E> createComparator() {
         return (node1, node2) -> {
             if (node1 == null && node2 == null) {
@@ -43,6 +43,7 @@ public class BinaryTree<E> {
         return getNodeAndParentByData(data) != null;
     }
 
+    @SuppressWarnings("unchecked")
     private TreeNode<E>[] getNodeAndParentByData(E data) {
         TreeNode<E> currentNode = root;
         TreeNode<E> parentNode = null;
@@ -103,6 +104,7 @@ public class BinaryTree<E> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private TreeNode<E>[] getMinLeftNodeAndParent(TreeNode<E> node) {
         TreeNode<E> minLeftNode = node.getRight();
         TreeNode<E> minLeftParentNode = node;
@@ -117,109 +119,92 @@ public class BinaryTree<E> {
     }
 
     public boolean removeNodeByData(E data) {
+
         if (size == 0) {
             return false;
         }
 
-        TreeNode<E>[] removingNodeAndParent = getNodeAndParentByData(data);
+        int comparisonResult = comparator.compare(root.getData(), data);
 
-
-        if (removingNodeAndParent == null) {
-            return false;
-        }
-
-        TreeNode<E> removedNode = removingNodeAndParent[1];
-        TreeNode<E> removedNodeParent = removingNodeAndParent[0];
-        TreeNode<E> replacementNode =  getReplacementNode(removedNode);
-
-        if (removedNode.hasNoChildren()) {
-            if (removedNodeParent == null) {
-                root = null;
-            } else if (removedNodeParent.getLeft() == removedNode) {
-                removedNodeParent.setLeft(getReplacementNode(removingNodeAndParent[1]));
-            } else {
-                removedNodeParent.setRight(removingNodeAndParent[1]);
-            }
-
-            size--;
-            return true;
-        }
-        //нет обоих детей
-        if (removedNode.hasNoBothChildren()) {
-            //удаляемый узел  - правый сын
-            if (removedNodeParent != null && removedNodeParent.getRight() == removedNode) {
-                // имеет левого сына
-                if (removedNode.getLeft() != null) {
-                    //если имеет леввого сына делаем его правым сыном родителя
-                    removedNodeParent.setRight(removedNode.getLeft());
-                } else {
-                    // если имеет правого сына делаем его правым сыном родителя
-                    removedNodeParent.setRight(removedNode.getRight());
-                }
-                // если удаляемый узел - левый сын
-            } else if (removedNodeParent != null) {
-                //если имеет левого сына делаем его левым сыном родителя
-                if (removedNode.getLeft() != null) {
-                    removedNodeParent.setLeft(removedNode.getLeft());
-                    // если имеет правого то делаем его левым сыном родителя
-                } else {
-                    // если имеет левого то делаем его левым
-                    removedNodeParent.setLeft(removedNode.getRight());
-                }
-            } else if (root.getLeft() == null) {
-                root = root.getRight();
-            } else {
-                root = root.getLeft();
-            }
-
+        if (comparisonResult == 0) {
+            root = getSuccessor(root);
             size--;
             return true;
         }
 
-        TreeNode<E>[] arrayMinLeft = getMinLeftNodeAndParent(removedNode);
-        TreeNode<E> minLeftParentNode = arrayMinLeft[0];
-        TreeNode<E> minLeftNode = arrayMinLeft[1];
-        //ставим минимальный левый э
-        minLeftNode.setLeft(removedNode.getLeft());
-        minLeftParentNode.setLeft(minLeftNode.getRight());
+        TreeNode<E> deleteNodeParent = null;
+        TreeNode<E> deleteNode = root;
+        boolean isLeftChild = false;
 
-        //проверяем родителя на нал
-        if (removedNodeParent != null) {
-            //проверка на корень
-            if (removedNodeParent.getRight() == removedNode) {
-                removedNodeParent.setRight(minLeftNode);
+        while (comparisonResult != 0) {
+            deleteNodeParent = deleteNode;
+
+            if (comparisonResult > 0) {
+                deleteNode = deleteNode.getLeft();
+
+                if (deleteNode == null) {
+                    return false;
+                }
+
+                isLeftChild = true;
             } else {
-                removedNodeParent.setLeft(minLeftNode);
+                deleteNode = deleteNode.getRight();
+
+                if (deleteNode == null) {
+                    return false;
+                }
+
+                isLeftChild = false;
             }
-            if (minLeftParentNode != removedNode) {
-                minLeftNode.setRight(removedNode.getRight());
-            }
+
+            comparisonResult = comparator.compare(deleteNode.getData(), data);
+        }
+
+        if (isLeftChild) {
+            deleteNodeParent.setLeft(getSuccessor(deleteNode));
         } else {
-            root = minLeftNode;
-            root.setLeft(removedNode.getLeft());
-        }
-
-        if (minLeftParentNode != removedNode) {
-            minLeftNode.setRight(removedNode.getRight());
+            deleteNodeParent.setRight(getSuccessor(deleteNode));
         }
 
         size--;
         return true;
     }
 
-    private TreeNode<E> getReplacementNode(TreeNode<E> deleteNode) {
-        if (deleteNode.getRight() == null && deleteNode.getLeft() == null){
-        return null;
-        } else if (deleteNode.getLeft() == null) {
+    private TreeNode<E> getSuccessor(TreeNode<E> deleteNode) {
+        if (deleteNode.getLeft() == null) {
             return deleteNode.getRight();
-        }else {
+        }
+
+        if (deleteNode.getRight() == null) {
             return deleteNode.getLeft();
         }
+
+        TreeNode<E> replaceableNode = deleteNode.getRight();
+
+        if (replaceableNode.getLeft() == null) {
+            replaceableNode.setLeft(deleteNode.getLeft());
+            return replaceableNode;
+        }
+
+        TreeNode<E> replaceableNodeParent = deleteNode;
+
+        while (replaceableNode.getLeft() != null) {
+            replaceableNodeParent = replaceableNode;
+            replaceableNode = replaceableNode.getLeft();
+        }
+
+        replaceableNodeParent.setLeft(replaceableNode.getRight());
+
+        replaceableNode.setRight(deleteNode.getRight());
+        replaceableNode.setLeft(deleteNode.getLeft());
+
+        return replaceableNode;
     }
 
     public int size() {
         return size;
     }
+
     public void bypassInWidth(Consumer<E> consumer) {
         if (root == null) {
             return;
@@ -284,5 +269,20 @@ public class BinaryTree<E> {
                 stack.add(currentNode.getLeft());
             }
         }
+    }
+    @Override
+    public String toString() {
+        if (size == 0) {
+            return "[]";
+        }
+
+        StringBuilder stringBuilder = new StringBuilder("[");
+
+        bypassInWidth(e -> stringBuilder.append(e).append(", "));
+
+        int stringLength = stringBuilder.length();
+        stringBuilder.delete(stringLength - 2, stringLength);
+        stringBuilder.append(']');
+        return stringBuilder.toString();
     }
 }
