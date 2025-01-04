@@ -104,20 +104,6 @@ public class BinaryTree<E> {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private TreeNode<E>[] getMinLeftNodeAndParent(TreeNode<E> node) {
-        TreeNode<E> minLeftNode = node.getRight();
-        TreeNode<E> minLeftParentNode = node;
-
-        while (minLeftNode.getLeft() != null) {
-            minLeftParentNode = minLeftNode;
-            minLeftNode = minLeftNode.getLeft();
-
-        }
-
-        return (TreeNode<E>[]) new TreeNode[]{minLeftParentNode, minLeftNode};
-    }
-
     public boolean removeNodeByData(E data) {
 
         if (size == 0) {
