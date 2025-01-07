@@ -1,26 +1,19 @@
 package ru.academits.nikolenko.temperature.view;
 
 import ru.academits.nikolenko.temperature.controller.Controller;
-import ru.academits.nikolenko.temperature.model.TemperatureConverter;
 import ru.academits.nikolenko.temperature.model.scale.Scale;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-
 
 public class DesktopView implements View {
-
     private Controller controller;
     private final JTextField fieldToInputTemperature = new JTextField(10);
     private final JTextField fieldToOutputTemperature = new JTextField(10);
     private final JButton convertButton = new JButton("Конвертировать");
-
     private final JPanel panel = new JPanel();
-    private double inputTemperature;
-    private ButtonGroup buttonGroupInputScales;
+    private ButtonGroup buttonGroupScalesFromConvert;
     private ButtonGroup buttonGroupScalesToConvert;
-    private TemperatureConverter model;
     private boolean isStarted;
     private Scale convertFromScale;
     private Scale convertToScale;
@@ -31,6 +24,7 @@ public class DesktopView implements View {
         }
 
         isStarted = true;
+        Scale[] scales = controller.getScales();
 
         SwingUtilities.invokeLater(() -> {
             try {
@@ -47,14 +41,10 @@ public class DesktopView implements View {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setResizable(true);
 
-            Scale[] scales = controller.getScales();
-
-
             frame.add(panel);
             GridBagLayout gbl = new GridBagLayout();
             panel.setLayout(gbl);
             GridBagConstraints c = new GridBagConstraints();
-
 
             c.insets = new Insets(20, 20, 20, 20);
             c.gridx = 0;
@@ -63,7 +53,6 @@ public class DesktopView implements View {
             c.gridwidth = 2;
             c.fill = GridBagConstraints.HORIZONTAL;
             c.anchor = GridBagConstraints.PAGE_END;
-
 
             JLabel label1 = new JLabel("Введите начальную температуру");
             gbl.setConstraints(label1, c);
@@ -85,27 +74,20 @@ public class DesktopView implements View {
             gbl.setConstraints(label2, c);
             panel.add(label2);
 
-            buttonGroupInputScales = new ButtonGroup();
+            buttonGroupScalesFromConvert = new ButtonGroup();
             JRadioButton[] ButtonsFromConvert = new JRadioButton[scales.length];
 
             c.weightx = 1;
             c.gridwidth = 1;
 
-
             for (int i = 0; i < scales.length; i++) {
-                ButtonsFromConvert[i] = new JRadioButton((scales[i].getScaleName()));
+                String scaleName = scales[i].getScaleName();
+                ButtonsFromConvert[i] = new JRadioButton(scaleName);
                 c.gridx = i + 2;
-
-
-                buttonGroupInputScales.add(ButtonsFromConvert[i]);
+                buttonGroupScalesFromConvert.add(ButtonsFromConvert[i]);
                 gbl.setConstraints(ButtonsFromConvert[i], c);
                 panel.add(ButtonsFromConvert[i]);
-            }
-            if (ButtonsFromConvert[1].isSelected()) {
-                convertFromScale = scales[1];
-            }
-            if (ButtonsFromConvert[0].isSelected()) {
-                convertFromScale = scales[0];
+
             }
 
             c.gridx = 0;
@@ -122,47 +104,33 @@ public class DesktopView implements View {
             c.weightx = 1;
             c.gridwidth = 1;
 
-
             for (int i = 0; i < scales.length; i++) {
-                buttonsToConvert[i] = new JRadioButton(String.valueOf((scales[i])));
+                buttonsToConvert[i] = new JRadioButton((scales[i].getScaleName()));
                 c.gridx = i + 2;
-
-
                 buttonGroupScalesToConvert.add(buttonsToConvert[i]);
                 gbl.setConstraints(buttonsToConvert[i], c);
                 panel.add(buttonsToConvert[i]);
-
-
             }
-            if (buttonsToConvert[0].isSelected()) {
-                convertToScale = scales[0];
-
-            }
-            if (buttonsToConvert[1].isSelected()) {
-                convertToScale = scales[1];
-
-            }
-            if (buttonsToConvert[2].isSelected()) {
-                convertToScale = scales[2];
-
-            }
-
 
             c.gridx = 0;
             c.gridy = 3;
             c.weightx = 1;
             c.gridwidth = 6;
             c.fill = GridBagConstraints.BOTH;
-
             gbl.setConstraints(convertButton, c);
 
-            for (int i = 0; i < scales.length; i++) {
-                convertToScale = ButtonsFromConvert[i].setActionCommand(scales[i].getScaleName());
-                buttonsToConvert[i].setActionCommand(scalesSet[i]);
-            }
-
             convertButton.addActionListener(e -> {
+                for (int i = 0; i < scales.length; i++) {
+                    ButtonsFromConvert[i].setActionCommand(scales[i].getScaleName());
+                    buttonsToConvert[i].setActionCommand(scales[i].getScaleName());
+                }
                 try {
+                    String stringInitialScale = buttonGroupScalesFromConvert.getSelection().getActionCommand();
+                    String stringScaleToConvert = buttonGroupScalesToConvert.getSelection().getActionCommand();
+
+                    convertFromScale = scales[getScaleIndex(stringInitialScale)];
+                    convertToScale = scales[getScaleIndex(stringScaleToConvert)];
+
                     double temperature = Double.parseDouble(fieldToInputTemperature.getText());
                     controller.convert(convertFromScale, convertToScale, temperature);
                 } catch (NumberFormatException ex) {
@@ -186,11 +154,8 @@ public class DesktopView implements View {
             c.gridwidth = 3;
             gbl.setConstraints(fieldToOutputTemperature, c);
             fieldToOutputTemperature.setEditable(false);
-
             panel.add(fieldToOutputTemperature);
-
             frame.setVisible(true);
-
         });
     }
 
@@ -204,5 +169,13 @@ public class DesktopView implements View {
         fieldToOutputTemperature.setText("Температура в градусах " + scaleName + " = " + temperature);
     }
 
-
+    public int getScaleIndex(String scaleName) {
+        Scale[] scales = controller.getScales();
+        for (int i = 0; i < scales.length; i++) {
+            if (scaleName.equals(scales[i].getScaleName())) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

@@ -15,4 +15,9 @@ public class KelvinScale implements Scale {
     public double convertToCelsius(double inputTemperature) {
         return inputTemperature - 273.15;
     }
+
+    @Override
+    public String toString() {
+        return "Kelvin";
+    }
 }

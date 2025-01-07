@@ -15,4 +15,9 @@ public class CelsiusScale implements Scale {
     public double convertToCelsius(double inputTemperature) {
         return inputTemperature;
     }
+
+    @Override
+    public String toString() {
+        return "Celsius";
+    }
 }

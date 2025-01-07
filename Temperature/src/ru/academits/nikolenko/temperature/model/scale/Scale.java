@@ -4,6 +4,6 @@ public interface Scale {
     String getScaleName();
 
     double convertToCelsius(double inputTemperature);
-    double convertFromCelsius(double inputTemperature);
 
+    double convertFromCelsius(double inputTemperature);
 }
