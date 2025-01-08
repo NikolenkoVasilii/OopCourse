@@ -1,61 +1,58 @@
 package ru.academits.nikolenko.array_list_home;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.io.*;
-import java.util.List;
-
+import java.util.Arrays;
+import java.util.Scanner;
 public class Main {
-    public static ArrayList<String> getFileLines(String fileName) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            ArrayList<String> lines = new ArrayList<>();
-            String line;
+    public static ArrayList<String> getFileLines(String fileName) {
+        ArrayList<String> newList = new ArrayList<>();
 
-            while ((line = reader.readLine()) != null) {
-                lines.add(line);
+        try (Scanner scanner = new Scanner(new File(fileName))) {
+            while (scanner.hasNextLine()) {
+                newList.add(scanner.nextLine());
             }
+        } catch (FileNotFoundException e) {
+            System.out.println("Файл не найден: " + e.getMessage());
+        }
 
-            return lines;
+        return newList;
+    }
+
+    public static void removeEvenNumbers(ArrayList<Integer> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) % 2 == 0) {
+                list.remove(i);
+
+                i--;
+            }
         }
     }
 
-    public static void deleteEvenNumbers(ArrayList<Integer> numbers) {
-        for (int i = numbers.size() - 1; i >= 0; i--) {
-            if (numbers.get(i) % 2 == 0) {
-                numbers.remove(i);
-            }
-        }
-    }
+    public static ArrayList<Integer> getListWithoutDuplicates(ArrayList<Integer> list) {
+        ArrayList<Integer> newList = new ArrayList<>(list.size());
 
-    public static <T> ArrayList<T> getUniqueItemsList(ArrayList<T> list) {
-        ArrayList<T> uniqueItemsList = new ArrayList<>(list.size());
-
-        for (T item : list) {
-            if (!uniqueItemsList.contains(item)) {
-                uniqueItemsList.add(item);
+        for (Integer element : list) {
+            if (!newList.contains(element)) {
+                newList.add(element);
             }
         }
 
-        return uniqueItemsList;
+        return newList;
     }
 
     public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<>(Arrays.asList(12, 24, 63, 24, 15, 12, 121));
+
         String fileName = "line.txt";
 
-        try {
-            ArrayList<String> fileLines = getFileLines(fileName);
-            System.out.println("Строки из файла: " + fileLines);
-        } catch (FileNotFoundException e) {
-            System.out.println("Ошибка! Файл не найден!");
-        } catch (IOException e) {
-            System.out.println("Ошибка при чтении файла: " + e.getMessage());
-        }
+        System.out.println("Строки из файла: " + getFileLines(fileName));
 
-        ArrayList<Integer> numbersList = new ArrayList<>(List.of(1, 2, 4, 4, 5, 6, 7, 8, 9, 9, 1, 12, 13, 4, 6, 7, 3, 17, 9, 10));
-        System.out.println("Изначальный список чисел: " + numbersList);
-        deleteEvenNumbers(numbersList);
-        System.out.println("Список без четных чисел: " + numbersList);
+        System.out.println("Список без повторений : " + getListWithoutDuplicates(list));
 
-        ArrayList<Integer> uniqueNumbersList = getUniqueItemsList(numbersList);
-        System.out.println("Список чисел без повторений: " + uniqueNumbersList);
+        removeEvenNumbers(list);
+
+        System.out.println("Список без четных чисел: " + list);
     }
 }
