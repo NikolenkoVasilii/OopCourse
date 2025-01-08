@@ -43,7 +43,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        ArrayList<Integer> list = new ArrayList<>(Arrays.asList(12, 24, 63, 24, 15, 12, 121));
+        ArrayList<Integer> list = new ArrayList<>(Arrays.asList(13, 42, 42, 14, 15, 13, 121));
 
         String fileName = "line.txt";
 
