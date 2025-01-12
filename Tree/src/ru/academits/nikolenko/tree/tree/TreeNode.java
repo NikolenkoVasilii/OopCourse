@@ -17,14 +17,6 @@ class TreeNode<E> {
         this.data = data;
     }
 
-    public boolean hasNoChildren() {
-        return left == null && right == null;
-    }
-
-    public boolean hasNoBothChildren() {
-        return left == null || right == null;
-    }
-
     public TreeNode<E> getLeft() {
         return left;
     }

@@ -3,36 +3,39 @@ package ru.academits.nikolenko.tree.tree;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class BinaryTree<E> {
+public class BinarySearchTree<E> {
     private TreeNode<E> root;
     private int size;
-    private final Comparator<E> comparator;
+    private final Comparator<? super E> comparator;
 
-    public BinaryTree(Comparator<E> comparator) {
+    public BinarySearchTree(Comparator<? super E> comparator) {
         this.comparator = comparator;
     }
 
-    public BinaryTree() {
-        comparator = createComparator();
+    public BinarySearchTree() {
+        comparator = null;
     }
 
-    @SuppressWarnings("unchecked")
-    private Comparator<E> createComparator() {
-        return (node1, node2) -> {
-            if (node1 == null && node2 == null) {
+    private int compare(E data1, E data2) {
+        if (comparator != null) {
+            return comparator.compare(data1, data2);
+        }
+
+        if (data1 == null) {
+            if (data2 == null) {
                 return 0;
             }
 
-            if (node1 == null) {
-                return -1;
-            }
+            return -1;
+        }
 
-            if (node2 == null) {
-                return 1;
-            }
+        if (data2 == null) {
+            return 1;
+        }
 
-            return ((Comparable<E>) node1).compareTo(node2);
-        };
+        //noinspection unchecked
+        Comparable<E> comparableData1 = (Comparable<E>) data1;
+        return comparableData1.compareTo(data2);
     }
 
     public int getSize() {
@@ -49,16 +52,16 @@ public class BinaryTree<E> {
         TreeNode<E> parentNode = null;
 
         while (currentNode != null) {
-            int comparisonResult = comparator.compare(data, currentNode.getData());
+            int comparisonResult = compare(data, currentNode.getData());
 
             if (comparisonResult == 0) {
                 return (TreeNode<E>[]) new TreeNode[]{parentNode, currentNode};
             }
 
             parentNode = currentNode;
+
             if (comparisonResult < 0) {
                 if (currentNode.getLeft() != null) {
-
                     currentNode = currentNode.getLeft();
                 } else {
                     return null;
@@ -84,7 +87,7 @@ public class BinaryTree<E> {
         TreeNode<E> currentNode = root;
 
         while (currentNode != null) {
-            if (comparator.compare(data, currentNode.getData()) < 0) {
+            if (compare(data, currentNode.getData()) < 0) {
                 if (currentNode.getLeft() != null) {
                     currentNode = currentNode.getLeft();
                 } else {
@@ -105,12 +108,11 @@ public class BinaryTree<E> {
     }
 
     public boolean removeNodeByData(E data) {
-
         if (size == 0) {
             return false;
         }
 
-        int comparisonResult = comparator.compare(root.getData(), data);
+        int comparisonResult = compare(root.getData(), data);
 
         if (comparisonResult == 0) {
             root = getSuccessor(root);
@@ -121,29 +123,28 @@ public class BinaryTree<E> {
         TreeNode<E> deleteNodeParent = null;
         TreeNode<E> deleteNode = root;
         boolean isLeftChild = false;
-
+        
         while (comparisonResult != 0) {
             deleteNodeParent = deleteNode;
 
+
             if (comparisonResult > 0) {
                 deleteNode = deleteNode.getLeft();
+                isLeftChild = true;
 
                 if (deleteNode == null) {
                     return false;
                 }
-
-                isLeftChild = true;
             } else {
                 deleteNode = deleteNode.getRight();
+                isLeftChild = false;
 
                 if (deleteNode == null) {
                     return false;
                 }
-
-                isLeftChild = false;
             }
 
-            comparisonResult = comparator.compare(deleteNode.getData(), data);
+            comparisonResult = compare(deleteNode.getData(), data);
         }
 
         if (isLeftChild) {
@@ -206,6 +207,7 @@ public class BinaryTree<E> {
             if (currentNode.getLeft() != null) {
                 queue.add(currentNode.getLeft());
             }
+
             if (currentNode.getRight() != null) {
                 queue.add(currentNode.getRight());
             }
@@ -213,14 +215,10 @@ public class BinaryTree<E> {
     }
 
     public void bypassInDepthUsingRecursion(Consumer<E> consumer) {
-        if (root == null) {
-            return;
-        }
-
-        visitNode(root, consumer);
+        bypassInDepthUsingRecursion(root, consumer);
     }
 
-    private void visitNode(TreeNode<E> currentNode, Consumer<E> consumer) {
+    private void bypassInDepthUsingRecursion(TreeNode<E> currentNode, Consumer<E> consumer) {
         if (currentNode == null) {
             return;
         }
@@ -228,11 +226,11 @@ public class BinaryTree<E> {
         consumer.accept(currentNode.getData());
 
         if (currentNode.getLeft() != null) {
-            visitNode(currentNode.getLeft(), consumer);
+            bypassInDepthUsingRecursion(currentNode.getLeft(), consumer);
         }
 
         if (currentNode.getRight() != null) {
-            visitNode(currentNode.getRight(), consumer);
+            bypassInDepthUsingRecursion(currentNode.getRight(), consumer);
         }
     }
 
@@ -241,21 +239,23 @@ public class BinaryTree<E> {
             return;
         }
 
-        LinkedList<TreeNode<E>> stack = new LinkedList<>();
-        stack.add(root);
+        LinkedList<TreeNode<E>> deque = new LinkedList<>();
+        deque.push(root);
 
-        while (!stack.isEmpty()) {
-            TreeNode<E> currentNode = stack.removeLast();
+        while (!deque.isEmpty()) {
+            TreeNode<E> currentNode = deque.pop();
             consumer.accept(currentNode.getData());
 
             if (currentNode.getRight() != null) {
-                stack.add(currentNode.getRight());
+                deque.push(currentNode.getRight());
             }
+
             if (currentNode.getLeft() != null) {
-                stack.add(currentNode.getLeft());
+                deque.push(currentNode.getLeft());
             }
         }
     }
+
     @Override
     public String toString() {
         if (size == 0) {
