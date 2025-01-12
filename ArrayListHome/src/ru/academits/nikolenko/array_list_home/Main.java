@@ -43,7 +43,6 @@ public class Main {
 
     public static void main(String[] args) {
         String fileName = "line.txt";
-
         try {
             ArrayList<String> fileLines = getFileLines(fileName);
             System.out.println("Строки из файла: " + fileLines);
@@ -57,7 +56,6 @@ public class Main {
         System.out.println("Список без повторений: " + getListWithoutDuplicates(list));
 
         removeEvenNumbers(list);
-        
         System.out.println("Список без четных чисел: " + list);
     }
 }
