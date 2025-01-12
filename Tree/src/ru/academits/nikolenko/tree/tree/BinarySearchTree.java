@@ -123,7 +123,7 @@ public class BinarySearchTree<E> {
         TreeNode<E> deleteNodeParent = null;
         TreeNode<E> deleteNode = root;
         boolean isLeftChild = false;
-        
+
         while (comparisonResult != 0) {
             deleteNodeParent = deleteNode;
 

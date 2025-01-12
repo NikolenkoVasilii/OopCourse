@@ -34,7 +34,7 @@ public class Main {
             System.out.printf("Значение[ %s ] было удалено из текстового дерева.%n", x);
         }
 
-        System.out.printf("Размер текстового дерева после удаления [ %s ] : %s %n", x, stringBinarySearchTree.getSize());
+        System.out.printf("Размер текстового дерева после удаления [ %s ]: %s %n", x, stringBinarySearchTree.getSize());
         System.out.println();
 
         System.out.println("Результат метода (bypassInDepthUsingRecursion):");
